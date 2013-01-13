@@ -7,7 +7,6 @@ QGLWidget(parent)
     resizeGL(480,480);
     _width = 480;
     _height = 480;
-    buildColorMap();
 
     //30 millisecond timer
     //_timer.setInterval(30);
@@ -21,7 +20,6 @@ QGLWidget(parent)
 
 MyGLDraw::~MyGLDraw()
 {
-    glDeleteTextures(1, &_fireTexture);
 }
 
 void MyGLDraw::initializeGL()
@@ -78,6 +76,5 @@ QSize MyGLDraw::sizeHint() const
 void MyGLDraw::myUpdate()
 {
     //Elapse 30 milliseconds
-    _particles->update(30);
     updateGL();
 }
