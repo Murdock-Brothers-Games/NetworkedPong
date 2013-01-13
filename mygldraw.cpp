@@ -55,6 +55,14 @@ void MyGLDraw::paintGL()
     //do this for 2D painting only!
     glDisable(GL_DEPTH_TEST);
 
+    glBegin(GL_QUADS);
+    glColor3f(1.0f,1.0f,1.0f);
+    glVertex3f(200.0f, 200.0f, 0.0f);
+    glVertex3f(200.0f, 250.0f, 0.0f);
+    glVertex3f(250.0f, 250.0f, 0.0f);
+    glVertex3f(250.0f, 200.0f, 0.0f);
+    glEnd();
+
 
 }
 

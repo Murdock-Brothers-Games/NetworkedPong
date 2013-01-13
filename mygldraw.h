@@ -4,10 +4,13 @@
 #include <QWidget>
 #include <QtOpenGL/QGLWidget>
 #include <QTimer>
+#include <QTime>
 #include <QImage>
 #include <QFile>
 #include <QFileDialog>
 #include <QString>
+#include <ctime>
+#include <stdlib.h>
 
 #include "GL/GLU.h"
 
