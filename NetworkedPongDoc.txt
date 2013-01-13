@@ -1,0 +1,25 @@
+Networked Pong
+----------------------
+
+Requirements: A pong game with 2 players able to be played locally or
+              networked.
+			  
+			  Login screen
+			  Connection ability (join/host game)
+			  Render balls/paddles
+			  Music ?
+			  
+Expected Pieces:
+			Renderer (one class QGLWidget implementation)
+			Game Engine
+			Physics
+			Game Object
+			Ball
+			Paddle
+			Goal
+			Wall
+			Collision Management
+			
+			Main Menu
+			Network Manager (client/server)
+			
