@@ -9,10 +9,14 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QString>
+#include <QList>
 #include <ctime>
 #include <stdlib.h>
+#include <QImage>
+#include <QColor>
 
 #include "GL/GLU.h"
+#include "gameobject.h"
 
 class MyGLDraw: public QGLWidget
 {
@@ -47,8 +51,13 @@ private:
 
     QTime* _simulationTime;
 
+    QList<GameObject*> _screenObjects;
+
+
+
     float _width;
     float _height;
+
 
 };
 

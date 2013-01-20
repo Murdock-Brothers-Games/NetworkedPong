@@ -5,6 +5,7 @@
 
 //Collision codes
 
+#define     NOCOLLISION                     0x00
 //collision occured on left or right sides of subjects
 #define		COLLISIONAXIS_X					0x01
 //collision occured on top or bottom sides of subjects

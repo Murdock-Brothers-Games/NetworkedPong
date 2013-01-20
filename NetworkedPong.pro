@@ -15,10 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mygldraw.cpp \
-    gameobject.cpp
+    gameobject.cpp \
+    collisionsystem.cpp
 
 HEADERS  += mainwindow.h \
     mygldraw.h \
     gameobject.h \
     collisiontypes.h \
-    gameprimitives.h
+    gameprimitives.h \
+    collisionsystem.h \
+    collision.h

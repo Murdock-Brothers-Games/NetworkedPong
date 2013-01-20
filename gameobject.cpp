@@ -1,5 +1,6 @@
 #include "gameobject.h"
 #include <QDebug>
+#include <QFile> //For loading texture image
 
 GameObject::GameObject(QString name, Position pos, QObject *parent):
     QObject(parent)
@@ -18,6 +19,26 @@ QString GameObject::getName()
 void GameObject::setName(QString name)
 {
     _myName = name;
+}
+
+Volume GameObject::getVolume()
+{
+    return _myVolume;
+}
+
+void GameObject::setVolume(Volume vol)
+{
+    _myVolume = vol;
+}
+
+BoundingBox2D GameObject::getHitBox()
+{
+    return _myHitBox;
+}
+
+void GameObject::setHitBox(BoundingBox2D hBox)
+{
+    _myHitBox = hBox;
 }
 
 Position GameObject::getPosition()
@@ -199,6 +220,20 @@ bool GameObject::isInteractive()
 void GameObject::setInteractive(bool interactive)
 {
     _interactive = interactive;
+}
+
+void GameObject::loadTexture(QString filename)
+{
+    //Create the QImage from the filename.
+    QFile theFile(filename);
+    if( !theFile.exists()){
+        qDebug() <<
+          QString("GameObject::loadTexture(): Error: texture file '%1' not found. (GameObject '%2').").arg(
+                   filename).arg(_myName);
+        return;
+    }
+    //Texture should be loaded in now.
+    _myAppearance.texture.load(filename);
 }
 
 void GameObject::updateMovement(float dt)

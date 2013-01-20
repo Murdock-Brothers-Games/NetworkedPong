@@ -7,6 +7,7 @@
 
 #include "gameprimitives.h"
 #include "collisiontypes.h"
+#include "collision.h"
 
 class GameObject : public QObject
 {
@@ -20,6 +21,14 @@ public:
     QString getName();
 
     void setName(QString name);
+
+    Volume getVolume();
+
+    void setVolume(Volume vol);
+
+    BoundingBox2D getHitBox();
+
+    void setHitBox(BoundingBox2D hBox);
 
     Position getPosition();
 
@@ -69,6 +78,8 @@ public:
 
     void setInteractive(bool interactive);
 
+    void loadTexture(QString filename);
+
     
 signals:
     
@@ -88,6 +99,10 @@ private:
 
     QString _myName;
 
+    Volume _myVolume;
+
+    BoundingBox2D _myHitBox;
+
     Position _curPosition;
 
     Position _newPosition;
@@ -100,8 +115,8 @@ private:
 
     Acceleration _newAcceleration;
 
-
     Appearance _myAppearance;
+
 
     QList<Force> _forces;
 
