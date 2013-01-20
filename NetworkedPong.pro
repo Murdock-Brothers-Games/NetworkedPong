@@ -14,7 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mygldraw.cpp
+    mygldraw.cpp \
+    gameobject.cpp
 
 HEADERS  += mainwindow.h \
-    mygldraw.h
+    mygldraw.h \
+    gameobject.h \
+    collisiontypes.h \
+    gameprimitives.h

@@ -1,0 +1,273 @@
+#ifndef GAMEPRIMITIVES_H
+#define GAMEPRIMITIVES_H
+
+#include <QImage>
+#include <QString>
+
+typedef struct Volume{
+    float width;
+    float height;
+    float depth; //Maybe?
+    bool threeD; //Maybe?
+    Volume(){
+        width = 0.0f;
+        height = 0.0f;
+        depth = 0.0f;
+        threeD = false;
+    };
+} Volume;
+
+typedef struct Position{
+    float x;
+    float y;
+    float z;     //Maybe?
+    Position(){
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+    };
+    bool operator==(const Position& other){
+        return (x == other.x &&
+                y == other.y &&
+                z == other.z);
+    };
+    bool operator!=(const Position& other){
+        return !(*this == other);
+    };
+    Position operator+(const Position& other){
+        Position ret;
+        ret.x = x + other.x;
+        ret.y = y + other.y;
+        ret.z = z + other.z;
+        return ret;
+    };
+    Position& operator+=(const Position& other){
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
+    };
+    Position operator-(const Position& other){
+        Position ret;
+        ret.x = x - other.x;
+        ret.y = y - other.y;
+        ret.z = z - other.z;
+        return ret;
+    };
+    Position& operator-=(const Position& other){
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
+        return *this;
+    };
+    Position operator*(const Position& other){
+        Position ret;
+        ret.x = x * other.x;
+        ret.y = y * other.y;
+        ret.z = z * other.z;
+        return ret;
+    };
+    Position& operator*=(const Position& other){
+        x *= other.x;
+        y *= other.y;
+        z *= other.z;
+        return *this;
+    };
+    Position operator/(const Position& other){
+        Position ret;
+        ret.x = x / other.x;
+        ret.y = y / other.y;
+        ret.z = z / other.z;
+        return ret;
+    };
+    Position& operator/=(const Position& other){
+        x /= other.x;
+        y /= other.y;
+        z /= other.z;
+        return *this;
+    };
+} Position;
+
+typedef struct Velocity{
+   float x;
+   float y;
+   float z;
+   Velocity(){
+       x = 0.0f;
+       y = 0.0f;
+       z = 0.0f;
+   };
+   bool operator==(const Velocity& other){
+       return (x == other.x &&
+               y == other.y &&
+               z == other.z);
+   };
+   bool operator!=(const Velocity& other){
+       return !(*this == other);
+   };
+   Velocity operator+(const Velocity& other){
+       Velocity ret;
+       ret.x = x + other.x;
+       ret.y = y + other.y;
+       ret.z = z + other.z;
+       return ret;
+   };
+   Velocity& operator+=(const Velocity& other){
+       x += other.x;
+       y += other.y;
+       z += other.z;
+       return *this;
+   };
+   Velocity operator-(const Velocity& other){
+       Velocity ret;
+       ret.x = x - other.x;
+       ret.y = y - other.y;
+       ret.z = z - other.z;
+       return ret;
+   };
+   Velocity& operator-=(const Velocity& other){
+       x -= other.x;
+       y -= other.y;
+       z -= other.z;
+       return *this;
+   };
+   Velocity operator*(const Velocity& other){
+       Velocity ret;
+       ret.x = x * other.x;
+       ret.y = y * other.y;
+       ret.z = z * other.z;
+       return ret;
+   };
+   Velocity& operator*=(const Velocity& other){
+       x *= other.x;
+       y *= other.y;
+       z *= other.z;
+       return *this;
+   };
+   Velocity operator/(const Velocity& other){
+       Velocity ret;
+       ret.x = x / other.x;
+       ret.y = y / other.y;
+       ret.z = z / other.z;
+       return ret;
+   };
+   Velocity& operator/=(const Velocity& other){
+       x /= other.x;
+       y /= other.y;
+       z /= other.z;
+       return *this;
+   };
+} Velocity;
+
+typedef struct Acceleration{
+    float x;
+    float y;
+    float z;
+    Acceleration(){
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+    };
+    bool operator==(const Acceleration& other){
+        return (x == other.x &&
+                y == other.y &&
+                z == other.z);
+    };
+    bool operator!=(const Acceleration& other){
+        return !(*this == other);
+    };
+    Acceleration operator+(const Acceleration& other){
+        Acceleration ret;
+        ret.x = x + other.x;
+        ret.y = y + other.y;
+        ret.z = z + other.z;
+        return ret;
+    };
+    Acceleration& operator+=(const Acceleration& other){
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
+    };
+    Acceleration operator-(const Acceleration& other){
+        Acceleration ret;
+        ret.x = x - other.x;
+        ret.y = y - other.y;
+        ret.z = z - other.z;
+        return ret;
+    };
+    Acceleration& operator-=(const Acceleration& other){
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
+        return *this;
+    };
+    Acceleration operator*(const Acceleration& other){
+        Acceleration ret;
+        ret.x = x * other.x;
+        ret.y = y * other.y;
+        ret.z = z * other.z;
+        return ret;
+    };
+    Acceleration& operator*=(const Acceleration& other){
+        x *= other.x;
+        y *= other.y;
+        z *= other.z;
+        return *this;
+    };
+    Acceleration operator/(const Acceleration& other){
+        Acceleration ret;
+        ret.x = x / other.x;
+        ret.y = y / other.y;
+        ret.z = z / other.z;
+        return ret;
+    };
+    Acceleration& operator/=(const Acceleration& other){
+        x /= other.x;
+        y /= other.y;
+        z /= other.z;
+        return *this;
+    };
+} Acceleration;
+
+typedef struct Force{
+    QString name;
+    Acceleration acc;
+    float lifespan;
+    bool active;
+    Force(){
+        name = QString("");
+        lifespan = 0.0f;
+        active = false;
+    };
+} Force;
+
+typedef struct Appearance{
+    bool visible;
+    //Color
+    float r;
+    float g;
+    float b;
+    float alpha;
+    //Texture
+    bool textured;   //Maybe
+    QImage texture;  //Maybe
+    float texStartX; //Maybe
+    float texStartY; //Maybe
+    float texEndX;   //Maybe
+    float texEndY;   //Maybe
+    Appearance(){
+      visible = false;
+      r = 0.0f;
+      g = 0.0f;
+      b = 0.0f;
+      alpha = 0.0f;
+      textured = false;
+      texStartX = 0.0f;
+      texStartY = 0.0f;
+      texEndX = 0.0f;
+      texEndY = 0.0f;
+    };
+} Appearance;
+
+#endif // GAMEPRIMITIVES_H
