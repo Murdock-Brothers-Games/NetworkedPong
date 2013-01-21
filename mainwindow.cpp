@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 
+//This is where the game declaration
+//goes.
+#include "pongstate.h"
+
 MainWindow::MainWindow(QWidget *parent):
 QMainWindow(parent),
-  _screen(NULL)
+  _engine(NULL)
 {
     setupUi();
 }
@@ -21,9 +25,12 @@ void MainWindow::setupUi()
     _mainLayout->setObjectName(QString("MainWindow::_mainLayout"));
     _main->setLayout(_mainLayout);
 
-    _screen = new GameEngine(_main);
-    _screen->setObjectName(QString("MainWindow::_screen"));
-    _mainLayout->addWidget(_screen);
+    //Create our PongGame...
+    PongState* pongGame = new PongState(640, 480);
+
+    _engine = new GameEngine(pongGame, _main);
+    _engine->setObjectName(QString("MainWindow::_engine"));
+    _mainLayout->addWidget(_engine);
 
     setCentralWidget(_main);
 }

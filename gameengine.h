@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "pongstate.h"
+#include "gamestate.h"
 
 class GameEngine : public QWidget
 {
     Q_OBJECT
 public:
-    GameEngine(QWidget *parent = 0);
+    GameEngine(GameState* game, QWidget *parent = 0);
 
     ~GameEngine();
 
@@ -33,7 +33,7 @@ private:
 
     QVBoxLayout* _mainLayout;
 
-    PongState* _pongstate;
+    GameState* _gamestate;
 
     bool _exit;
     

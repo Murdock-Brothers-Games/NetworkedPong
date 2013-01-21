@@ -9,6 +9,7 @@ GameState::GameState(int screenWidth, int screenHeight,
     _screenWidth(screenWidth),
     _screenHeight(screenHeight)
 {
+    setupUi();
 }
 
 GameState::GameState(QWidget *parent):
@@ -111,4 +112,26 @@ QList<GameObject*> GameState::getVisibleObjects()
     vis.append(_scenery);
 
     return vis;
+}
+
+void GameState::renderState()
+{
+    //Just render the screen based on the
+    //state.
+    _screen->myGLRender();
+}
+
+void GameState::setupUi()
+{
+    this->setObjectName(QString::fromUtf8("GameState::main (StateName = %1)").arg(_name));
+    _mainLayout = new QVBoxLayout();
+    _mainLayout->setObjectName(QString::fromUtf8("GameState::mainLayout(StateName = %1)").arg(_name));
+    this->setLayout(_mainLayout);
+
+    //Create the display.
+    _screen = new MyGLDraw(_screenWidth, _screenHeight, this);
+    _screen->setObjectName(QString::fromUtf8("GameState::_screen"));
+
+    //Add the screen as our child widget.
+    _mainLayout->addWidget(_screen);
 }

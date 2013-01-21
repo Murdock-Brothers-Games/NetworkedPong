@@ -1,13 +1,13 @@
 #include "mygldraw.h"
 #include <QDebug>
 
-MyGLDraw::MyGLDraw(QWidget* parent):
-QGLWidget(parent)
+MyGLDraw::MyGLDraw(int screenWidth, int screenHeight, QWidget* parent):
+ QGLWidget(parent),
+  _width(screenWidth),
+  _height(screenHeight)
 {
     srand(time(NULL));
-    resizeGL(480,480);
-    _width = 480;
-    _height = 480;
+    resizeGL(_width,_height);
 
     //30 millisecond timer
     //_timer.setInterval(30);
@@ -76,7 +76,27 @@ bool MyGLDraw::removeGameObject(QString name)
     return found;
 }
 
-void MyGLDraw::render()
+int MyGLDraw::getScreenWidth()
+{
+    return _width;
+}
+
+void MyGLDraw::setScreenWidth(int width)
+{
+    _width = width;
+}
+
+int MyGLDraw::getScreenHeight()
+{
+    return _height;
+}
+
+void MyGLDraw::setScreenHeight(int height)
+{
+    _height = height;
+}
+
+void MyGLDraw::myGLRender()
 {
     //Elapse 30 milliseconds
     updateGL();
@@ -84,12 +104,12 @@ void MyGLDraw::render()
 
 QSize MyGLDraw::size() const
 {
-    return QSize(480,480);
+    return QSize(_width,_height);
 }
 
 QSize MyGLDraw::minimumSizeHint() const
 {
-    return QSize(480,480);
+    return QSize(_width,_height);
 }
 
 QSize MyGLDraw::sizeHint() const

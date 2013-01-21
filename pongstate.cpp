@@ -9,21 +9,10 @@ PongState::PongState(int screenWidth, int screenHeight,
     _p2PaddleDown(false)
 {
     setName(QString("Pong"));
-    setupUI();
     this->setFocusPolicy(Qt::StrongFocus);
 }
 
 PongState::~PongState()
-{
-
-}
-
-void setupUI()
-{
-
-}
-
-void render()
 {
 
 }
@@ -115,6 +104,16 @@ void PongState::buildAssets()
     _topWall->setMobile(true);
     _topWall->setPlayable(false);
     _topWall->setInteractive(false);
+
+}
+
+void PongState::update(float dt)
+{
+    //Move according to user input
+
+    //Check collision, readjust
+
+    //Check score
 
 }
 

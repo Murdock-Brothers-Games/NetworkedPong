@@ -15,7 +15,8 @@ public:
 
     void buildAssets();
 
-    void render();
+    //void renderState();
+    void update(float dt);
 
     void keyPressEvent(QKeyEvent *k);
 
@@ -27,7 +28,6 @@ public slots:
 
 private:
 
-    void setupUI();
 
     GameObject* _playerOne;
 

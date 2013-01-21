@@ -1,8 +1,10 @@
 #include "gameengine.h"
 
-GameEngine::GameEngine(QWidget *parent) :
-    QWidget(parent)
+GameEngine::GameEngine(GameState *game, QWidget *parent) :
+    QWidget(parent),
+    _gamestate(game)
 {
+    _gamestate->setParent(this);
     setupUi();
 }
 
@@ -26,10 +28,10 @@ void GameEngine::run()
         handleInput();
 
         //Update game state
-        update(timePassed);
+        _gamestate->update(timePassed);
 
         //Render
-        _pongstate->render();
+        _gamestate->renderState();
     }
 
     //Handle exiting to main menu...
@@ -73,10 +75,10 @@ void GameEngine::setupUi()
     this->setLayout(_mainLayout);
 
     //Create the game state and display.
-    _pongstate = new PongState(680, 480, this);
-    _pongstate->setObjectName(QString::fromUtf8("GameEngine::_pongstate"));
+//    _gamestate = new PongState(680, 480, this);
+    _gamestate->setObjectName(QString::fromUtf8("GameEngine::_gamestate"));
 
     //Add the screen as our child widget.
-    _mainLayout->addWidget(_pongstate);
+    _mainLayout->addWidget(_gamestate);
 
 }

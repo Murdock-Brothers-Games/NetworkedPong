@@ -24,7 +24,7 @@ class MyGLDraw: public QGLWidget
 
 
 public:
-    MyGLDraw(QWidget *parent=0);
+    MyGLDraw(int screenWidth, int screenHeight, QWidget *parent=0);
 
     ~MyGLDraw();
 
@@ -40,7 +40,15 @@ public:
 
     bool removeGameObject(QString name);
 
-    void render();
+    int getScreenWidth();
+
+    void setScreenWidth(int width);
+
+    int getScreenHeight();
+
+    void setScreenHeight(int height);
+
+    void myGLRender();
 
     QSize size() const;
 
@@ -67,11 +75,8 @@ private:
 
     QList<GameObject*> _screenObjects;
 
-
-
     float _width;
     float _height;
-
 
 };
 

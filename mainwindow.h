@@ -18,7 +18,7 @@ public:
 private:
     void setupUi();
 
-    GameEngine* _screen;
+    GameEngine* _engine;
 
     QWidget* _main;
     QVBoxLayout* _mainLayout;

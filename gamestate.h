@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QList>
 #include <QKeyEvent>
+#include <QVBoxLayout>
 
 #include "gameobject.h"
 #include "gameprimitives.h"
+#include "mygldraw.h"
 
 class GameState : public QWidget
 {
@@ -51,6 +53,10 @@ public:
 
     virtual void buildAssets() = 0;
 
+    virtual void update(float dt) = 0;
+
+    virtual void renderState();
+
     
 signals:
     
@@ -68,13 +74,21 @@ protected:
 
     int _screenHeight;
 
+    MyGLDraw* _screen;
+
     QList<GameObject*> _players;
 
     QList<GameObject*> _nonPlayers;
 
     QList<GameObject*> _scenery;
 
+
 private:
+
+    virtual void setupUi();
+
+    //GUI components
+    QVBoxLayout* _mainLayout;
 
     
 };
