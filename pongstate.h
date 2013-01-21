@@ -18,6 +18,8 @@ public:
     //void renderState();
     void update(float dt);
 
+    void handleInput();
+
     void keyPressEvent(QKeyEvent *k);
 
     void keyReleaseEvent(QKeyEvent *k);
@@ -28,6 +30,13 @@ public slots:
 
 private:
 
+    void checkBallWallCollision();
+
+    void checkPaddleWallCollision();
+
+    void checkBallPaddleCollision();
+
+    void checkGoalScored();
 
     GameObject* _playerOne;
 
@@ -40,6 +49,14 @@ private:
     GameObject* _bottomWall;
 
     bool _p1PaddleUp, _p1PaddleDown, _p2PaddleUp, _p2PaddleDown;
+
+    int _playerOneScore;
+
+    int _playerTwoScore;
+
+    int _scoreToWin;
+
+    float _paddleVelPerSec;
 
 };
 

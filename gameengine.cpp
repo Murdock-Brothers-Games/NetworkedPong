@@ -1,4 +1,6 @@
 #include "gameengine.h"
+#include <QElapsedTimer>
+#include "sleepthread.h"
 
 GameEngine::GameEngine(GameState *game, QWidget *parent) :
     QWidget(parent),
@@ -16,19 +18,27 @@ GameEngine::~GameEngine()
 void GameEngine::run()
 {
     //Take care of any initializations
+    QElapsedTimer theClock;
+    theClock.start();
+
+    //Interval (framerate)
+    float interval = (1.0f / 60.0f);
+    qint64 interval_usec = (int)(interval * 1000000.0f);
 
     while( !_exit ){
-        //Probably need to do some
-        //time keeping here, use
-        //QTimer or something to keep
-        //a consistent framerate.
-        float timePassed = 0.0f;
+        qint64 elapsed_nsec = theClock.nsecsElapsed();
+        qint64 elapsed_usec = (elapsed_nsec / 1000);
+        if( elapsed_usec < interval_usec ){
+            SleepThread::usleep(interval_usec - elapsed_usec);
+        }
+        theClock.restart();
+        float timePassedSec = (float)elapsed_usec * 1000000.0;
 
         //Process input
         handleInput();
 
         //Update game state
-        _gamestate->update(timePassed);
+        _gamestate->update(timePassedSec);
 
         //Render
         _gamestate->renderState();
@@ -44,6 +54,7 @@ void GameEngine::handleInput()
     //current game state based on
     //whatever the keypress events
     //did to our booleans
+    _gamestate->handleInput();
 }
 
 void GameEngine::update(float dt)
@@ -81,4 +92,12 @@ void GameEngine::setupUi()
     //Add the screen as our child widget.
     _mainLayout->addWidget(_gamestate);
 
+}
+
+void GameEngine::makeConnections()
+{
+    //Connect the gameOver signal from the
+    //game state to this class's exit function.
+    connect( _gamestate, SIGNAL(gaveOver()),
+             this, SLOT(slotExit()) );
 }

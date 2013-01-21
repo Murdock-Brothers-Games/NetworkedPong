@@ -55,10 +55,14 @@ public:
 
     virtual void update(float dt) = 0;
 
+    virtual void handleInput() = 0;
+
     virtual void renderState();
 
     
 signals:
+
+    void gameOver();
     
 public slots:
 

@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "gameengine.h"
+#include "pongstate.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,6 +20,7 @@ private:
     void setupUi();
 
     GameEngine* _engine;
+    PongState* _pongGame;
 
     QWidget* _main;
     QVBoxLayout* _mainLayout;

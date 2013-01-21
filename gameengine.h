@@ -30,6 +30,8 @@ private:
 
     void setupUi();
 
+    void makeConnections();
+
 
     QVBoxLayout* _mainLayout;
 

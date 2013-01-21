@@ -8,7 +8,14 @@ MainWindow::MainWindow(QWidget *parent):
 QMainWindow(parent),
   _engine(NULL)
 {
+    //Create our PongGame...
+    _pongGame = new PongState(640, 480);
+
+    //Setup the GUI
     setupUi();
+
+    //Run the game.
+    _engine->run();
 }
 
 MainWindow::~MainWindow()
@@ -25,10 +32,7 @@ void MainWindow::setupUi()
     _mainLayout->setObjectName(QString("MainWindow::_mainLayout"));
     _main->setLayout(_mainLayout);
 
-    //Create our PongGame...
-    PongState* pongGame = new PongState(640, 480);
-
-    _engine = new GameEngine(pongGame, _main);
+    _engine = new GameEngine(_pongGame, _main);
     _engine->setObjectName(QString("MainWindow::_engine"));
     _mainLayout->addWidget(_engine);
 

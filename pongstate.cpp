@@ -1,4 +1,5 @@
 #include "pongstate.h"
+#include <QMessageBox>
 
 PongState::PongState(int screenWidth, int screenHeight,
                      QWidget* parent):
@@ -10,6 +11,8 @@ PongState::PongState(int screenWidth, int screenHeight,
 {
     setName(QString("Pong"));
     this->setFocusPolicy(Qt::StrongFocus);
+
+    _paddleVelPerSec = (screenHeight * 1.5);
 }
 
 PongState::~PongState()
@@ -105,16 +108,46 @@ void PongState::buildAssets()
     _topWall->setPlayable(false);
     _topWall->setInteractive(false);
 
+    _screen->addGameObject(_ball);
+    _screen->addGameObject(_playerOne);
+    _screen->addGameObject(_playerTwo);
+    _screen->addGameObject(_topWall);
+    _screen->addGameObject(_bottomWall);
+
 }
 
 void PongState::update(float dt)
 {
     //Move according to user input
+    _ball->update(dt);
+    _playerOne->update(dt);
+    _playerTwo->update(dt);
 
     //Check collision, readjust
+    checkBallWallCollision();
+    checkPaddleWallCollision();
+    checkBallPaddleCollision();
 
     //Check score
+    checkGoalScored();
+}
 
+void PongState::handleInput()
+{
+    Velocity p1Vel = _playerOne->getVelocity();
+    Velocity p2Vel = _playerTwo->getVelocity();
+    if( _p1PaddleUp ){
+        p1Vel.y = _paddleVelPerSec;
+    }
+    if( _p1PaddleDown ){
+        p1Vel.y = -_paddleVelPerSec;
+    }
+    if( _p2PaddleUp ){
+        p2Vel.y = _paddleVelPerSec;
+    }
+    if( _p2PaddleDown ){
+        p2Vel.y = -_paddleVelPerSec;
+    }
 }
 
 void PongState::keyPressEvent(QKeyEvent *k) {
@@ -157,3 +190,99 @@ void PongState::keyReleaseEvent(QKeyEvent *k) {
     k->accept();
 }
 
+void PongState::checkBallWallCollision()
+{
+    BoundingBox2D ball = _ball->getHitBox();
+    BoundingBox2D tWall = _topWall->getHitBox();
+    BoundingBox2D bWall = _bottomWall->getHitBox();
+
+    if( ball.intersectsY(tWall) ||
+        ball.intersectsY(bWall) ){
+        Velocity ballV = _ball->getVelocity();
+        ballV.y *= -1.0f;
+        _ball->setVelocity(ballV);
+    }
+
+}
+
+void PongState::checkPaddleWallCollision()
+{
+    BoundingBox2D tWall = _topWall->getHitBox();
+    BoundingBox2D bWall = _bottomWall->getHitBox();
+    BoundingBox2D p1Paddle = _playerOne->getHitBox();
+    BoundingBox2D p2Paddle = _playerTwo->getHitBox();
+
+    if( p1Paddle.intersectsY(tWall) ){
+        Velocity p1Vel = _playerOne->getVelocity();
+        Position p1Pos = _playerOne->getPosition();
+        Position tWallPos = _topWall->getPosition();
+        Volume p1Vol = _playerOne->getVolume();
+        p1Vel.y = 0.0f;
+        p1Pos.y = (tWallPos.y - p1Vol.height);
+        _playerOne->setVelocity(p1Vel);
+        _playerOne->setPosition(p1Pos);
+    }
+    if( p2Paddle.intersectsY(tWall) ){
+        Velocity p2Vel = _playerTwo->getVelocity();
+        Position p2Pos = _playerTwo->getPosition();
+        Position tWallPos = _topWall->getPosition();
+        Volume p2Vol = _playerTwo->getVolume();
+        p2Vel.y = 0.0f;
+        p2Pos.y = (tWallPos.y - p2Vol.height);
+        _playerTwo->setVelocity(p2Vel);
+        _playerTwo->setPosition(p2Pos);
+    }
+    if( p1Paddle.intersectsY(bWall) ){
+        Velocity p1Vel = _playerOne->getVelocity();
+        Position p1Pos = _playerOne->getPosition();
+        Position bWallPos = _bottomWall->getPosition();
+        Volume bWallVol = _bottomWall->getVolume();
+        p1Vel.y = 0.0f;
+        p1Pos.y = ((bWallPos.y + bWallVol.height));
+        _playerOne->setVelocity(p1Vel);
+        _playerOne->setPosition(p1Pos);
+    }
+    if( p2Paddle.intersectsY(bWall) ){
+        Velocity p2Vel = _playerTwo->getVelocity();
+        Position p2Pos = _playerTwo->getPosition();
+        Position bWallPos = _bottomWall->getPosition();
+        Volume bWallVol = _bottomWall->getVolume();
+        p2Vel.y = 0.0f;
+        p2Pos.y = ((bWallPos.y + bWallVol.height));
+        _playerTwo->setVelocity(p2Vel);
+        _playerTwo->setPosition(p2Pos);
+    }
+}
+
+void PongState::checkBallPaddleCollision()
+{
+    BoundingBox2D ball = _ball->getHitBox();
+    BoundingBox2D p1Paddle = _playerOne->getHitBox();
+    BoundingBox2D p2Paddle = _playerTwo->getHitBox();
+
+    if( ball.intersectsY(p1Paddle) ||
+        ball.intersectsY(p2Paddle) ){
+        Velocity ballV = _ball->getVelocity();
+        ballV.x *= -1.0f;
+        _ball->setVelocity(ballV);
+    }
+}
+
+void PongState::checkGoalScored()
+{
+    Position ballPos = _ball->getPosition();
+    if( ballPos.x < 0.0f ){
+        _playerTwoScore++;
+    }else if( ballPos.x > _screenWidth ){
+        _playerOneScore++;
+    }
+    //check for win
+    if( (_playerOneScore == _scoreToWin) ||
+        (_playerTwoScore == _scoreToWin) ){
+        int winner = (_playerOneScore == _scoreToWin ? 1 : 2);
+        //Handle any score stuff
+        QMessageBox::information(this, "Winner",
+                                 QString("Player %1 wins!").arg(winner));
+        emit gameOver();
+    }
+}
