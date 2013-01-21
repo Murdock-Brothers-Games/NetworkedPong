@@ -28,6 +28,20 @@ public:
 
     ~MyGLDraw();
 
+    QList<GameObject*> getGameObjects();
+
+    void setGameObjects(QList<GameObject*> gObjs);
+
+    int getNumGameObjects();
+
+    void clearGameObjects();
+
+    void addGameObject(GameObject* gObj);
+
+    bool removeGameObject(QString name);
+
+    void render();
+
     QSize size() const;
 
     QSize minimumSizeHint() const;
@@ -35,7 +49,7 @@ public:
     QSize sizeHint() const;
 
 public slots:
-    void myUpdate();
+
 
 protected:
     //Overridden QT Functions

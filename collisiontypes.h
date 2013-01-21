@@ -24,5 +24,14 @@ typedef struct CollisionDesc{
     Position pos;
 } CollisionDesc;
 
+enum CollisionBehavior{
+    STOP,     //Stops the object that collided with this one
+    REFLECT,  //Reflects the velocity of the object
+              //that collided with this one in
+              //in the axis of collision
+    TRIGGER,  //Triggers an event
+    PASSIVE   //Does nothing
+};
+
 
 #endif // COLLISIONTYPES_H

@@ -41,6 +41,16 @@ void GameObject::setHitBox(BoundingBox2D hBox)
     _myHitBox = hBox;
 }
 
+CollisionBehavior GameObject::getHitAction()
+{
+    return _myHitAction;
+}
+
+void GameObject::setHitAction(CollisionBehavior act)
+{
+    _myHitAction = act;
+}
+
 Position GameObject::getPosition()
 {
     return _curPosition;

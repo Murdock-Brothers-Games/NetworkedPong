@@ -14,6 +14,8 @@ class GameObject : public QObject
     Q_OBJECT
 public:
 
+
+
     GameObject(QString name, Position pos, QObject *parent = 0);
 
     virtual ~GameObject();
@@ -29,6 +31,10 @@ public:
     BoundingBox2D getHitBox();
 
     void setHitBox(BoundingBox2D hBox);
+
+    CollisionBehavior getHitAction();
+
+    void setHitAction(CollisionBehavior act);
 
     Position getPosition();
 
@@ -102,6 +108,8 @@ private:
     Volume _myVolume;
 
     BoundingBox2D _myHitBox;
+
+    CollisionBehavior _myHitAction;
 
     Position _curPosition;
 

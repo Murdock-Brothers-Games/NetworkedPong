@@ -16,7 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mygldraw.cpp \
     gameobject.cpp \
-    collisionsystem.cpp
+    collisionsystem.cpp \
+    gameengine.cpp
 
 HEADERS  += mainwindow.h \
     mygldraw.h \
@@ -24,4 +25,5 @@ HEADERS  += mainwindow.h \
     collisiontypes.h \
     gameprimitives.h \
     collisionsystem.h \
-    collision.h
+    collision.h \
+    gameengine.h
