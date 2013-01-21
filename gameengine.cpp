@@ -49,6 +49,15 @@ void GameEngine::update(float dt)
     //Update the current game state
     //with the amount of time that
     //has passed in fractional seconds.
+
+    //Update local player actions
+
+    //Update networked player actions
+
+    //Update game objects
+
+    //Handle collision detection
+
 }
 
 void GameEngine::slotExit()

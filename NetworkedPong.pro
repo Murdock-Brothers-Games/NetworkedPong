@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     mygldraw.cpp \
     gameobject.cpp \
     collisionsystem.cpp \
-    gameengine.cpp
+    gameengine.cpp \
+    gamestate.cpp \
+    pongstate.cpp
 
 HEADERS  += mainwindow.h \
     mygldraw.h \
@@ -26,4 +28,6 @@ HEADERS  += mainwindow.h \
     gameprimitives.h \
     collisionsystem.h \
     collision.h \
-    gameengine.h
+    gameengine.h \
+    gamestate.h \
+    pongstate.h

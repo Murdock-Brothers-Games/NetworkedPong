@@ -59,6 +59,10 @@ Position GameObject::getPosition()
 void GameObject::setPosition(Position pos)
 {
     _curPosition = pos;
+    //Don't let hitbox get out of sync
+    //with position
+    _myHitBox.startX = _curPosition.x;
+    _myHitBox.startY = _curPosition.y;
 }
 
 Velocity GameObject::getVelocity()
@@ -232,6 +236,21 @@ void GameObject::setInteractive(bool interactive)
     _interactive = interactive;
 }
 
+bool GameObject::isPlayable()
+{
+    return _playable;
+}
+
+void GameObject::setPlayable(bool playable)
+{
+    _playable = playable;
+}
+
+void GameObject::update(float dt)
+{
+    updateMovement(dt);
+}
+
 void GameObject::loadTexture(QString filename)
 {
     //Create the QImage from the filename.
@@ -249,15 +268,33 @@ void GameObject::loadTexture(QString filename)
 void GameObject::updateMovement(float dt)
 {
     //Update position
-    _newPosition.x = _curPosition.x + (_curVelocity.x*dt);
-    _newPosition.y = _curPosition.y + (_curVelocity.y*dt);
-    _newPosition.z = _curPosition.z + (_curVelocity.z*dt);
+    //_newPosition.x = _curPosition.x + (_curVelocity.x*dt);
+    _curPosition.x = _curPosition.x + (_curVelocity.x*dt);
+    //_newPosition.y = _curPosition.y + (_curVelocity.y*dt);
+    _curPosition.y = _curPosition.y + (_curVelocity.y*dt);
+    //_newPosition.z = _curPosition.z + (_curVelocity.z*dt);
+    _curPosition.z = _curPosition.z + (_curVelocity.z*dt);
+    //Don't let hitbox get out of sync
+    //with position
+    //_myHitBox.startX = _newPosition.x;
+    _myHitBox.startX = _curPosition.x;
+    //_myHitBox.startY = _newPosition.y;
+    _myHitBox.startY = _curPosition.y;
 
     //Update velocity
-    _newVelocity.x = _curVelocity.x + (_curAcceleration.x*dt);
-    _newVelocity.y = _curVelocity.y + (_curAcceleration.y*dt);
-    _newVelocity.z = _curVelocity.z + (_curAcceleration.z*dt);
+    //_newVelocity.x = _curVelocity.x + (_curAcceleration.x*dt);
+    _curVelocity.x = _curVelocity.x + (_curAcceleration.x*dt);
+    //_newVelocity.y = _curVelocity.y + (_curAcceleration.y*dt);
+    _curVelocity.y = _curVelocity.y + (_curAcceleration.y*dt);
+    //_newVelocity.z = _curVelocity.z + (_curAcceleration.z*dt);
+    _curVelocity.z = _curVelocity.z + (_curAcceleration.z*dt);
 }
+
+//void GameObject::commitMoveUpdate()
+//{
+//    _curPosition = _newPosition;
+//    _curVelocity = _newVelocity;
+//}
 
 void GameObject::updateForces(float dt)
 {

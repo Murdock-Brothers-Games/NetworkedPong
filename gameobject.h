@@ -84,6 +84,10 @@ public:
 
     void setInteractive(bool interactive);
 
+    bool isPlayable();
+
+    void setPlayable(bool playable);
+
     void loadTexture(QString filename);
 
     
@@ -91,17 +95,19 @@ signals:
     
 public slots:
 
-    virtual void update(float dt) = 0;
+    virtual void update(float dt);
 
 private:
 
     void updateMovement(float dt);
 
+    //void commitMoveUpdate();
+
     void updateForces(float dt);
 
-    virtual void onCollision(CollisionDesc colType, GameObject* other) = 0;
+    //virtual void onCollision(CollisionDesc colType, GameObject* other) = 0;
 
-    virtual void interact(GameObject* other) = 0;
+    //virtual void interact(GameObject* other);
 
     QString _myName;
 
@@ -113,15 +119,15 @@ private:
 
     Position _curPosition;
 
-    Position _newPosition;
+    //Position _newPosition;
 
     Velocity _curVelocity;
 
-    Velocity _newVelocity;
+    //Velocity _newVelocity;
 
     Acceleration _curAcceleration;
 
-    Acceleration _newAcceleration;
+    //Acceleration _newAcceleration;
 
     Appearance _myAppearance;
 
@@ -135,6 +141,8 @@ private:
     bool _mobile;
 
     bool _interactive;
+	
+	bool _playable;
 
 };
 

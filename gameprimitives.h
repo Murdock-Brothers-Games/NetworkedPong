@@ -9,6 +9,12 @@ typedef struct Volume{
     float height;
     float depth; //Maybe?
     bool threeD; //Maybe?
+    Volume(float theWidth, float theHeight, float theDepth, bool isThreeD=false){
+        width = theWidth;
+        height = theHeight;
+        depth = theDepth;
+        threeD = isThreeD;
+    };
     Volume(){
         width = 0.0f;
         height = 0.0f;
@@ -21,6 +27,11 @@ typedef struct Position{
     float x;
     float y;
     float z;     //Maybe?
+    Position(float theX, float theY, float theZ){
+        x = theX;
+        y = theY;
+        z = theZ;
+    };
     Position(){
         x = 0.0f;
         y = 0.0f;
@@ -92,6 +103,11 @@ typedef struct Velocity{
    float x;
    float y;
    float z;
+   Velocity(float theX, float theY, float theZ){
+       x = theX;
+       y = theY;
+       z = theZ;
+   };
    Velocity(){
        x = 0.0f;
        y = 0.0f;
@@ -163,6 +179,11 @@ typedef struct Acceleration{
     float x;
     float y;
     float z;
+    Acceleration(float theX, float theY, float theZ){
+        x = theX;
+        y = theY;
+        z = theZ;
+    };
     Acceleration(){
         x = 0.0f;
         y = 0.0f;
