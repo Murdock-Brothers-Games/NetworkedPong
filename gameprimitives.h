@@ -3,6 +3,7 @@
 
 #include <QImage>
 #include <QString>
+#include <QDebug>
 
 typedef struct Volume{
     float width;

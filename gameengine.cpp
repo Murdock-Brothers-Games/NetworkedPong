@@ -1,37 +1,60 @@
 #include "gameengine.h"
-#include <QElapsedTimer>
+#include <QApplication>
 #include "sleepthread.h"
 
 GameEngine::GameEngine(GameState *game, QWidget *parent) :
     QWidget(parent),
-    _gamestate(game)
+    _gamestate(game),
+    _exit(false)
 {
+    //set up interval in microseconds
+    float interval = (1.0f / 60.0f);
+    _interval_usec = (int)(interval * 1000000.0f);
+
+    _interval_msec = (int)(_interval_usec / 1000);
+
+
+
+    _loopControl = new QTimer(this);
+    //_loopControl->setInterval(interval_msec);
+    connect( _loopControl, SIGNAL(timeout()),
+             this, SLOT(slotRun()) );
+
     _gamestate->setParent(this);
+    //Constructs the game
+    _gamestate->buildAssets();
     setupUi();
+
+    //Create timing objects
+    _timer.start();
+    _loopControl->start(_interval_msec);
 }
 
 GameEngine::~GameEngine()
 {
-
 }
 
-void GameEngine::run()
+void GameEngine::slotRun()
 {
     //Take care of any initializations
-    QElapsedTimer theClock;
-    theClock.start();
+    //QElapsedTimer theClock;
+    //theClock.start();
 
     //Interval (framerate)
-    float interval = (1.0f / 60.0f);
-    qint64 interval_usec = (int)(interval * 1000000.0f);
 
-    while( !_exit ){
-        qint64 elapsed_nsec = theClock.nsecsElapsed();
+
+    //while( !_exit ){
+    if( !_exit ){
+        //handle event loop stuff
+        //qApp->processEvents();
+
+        qDebug() << "GameEngine::run():";
+        qint64 elapsed_nsec = _timer.nsecsElapsed();
         qint64 elapsed_usec = (elapsed_nsec / 1000);
-        if( elapsed_usec < interval_usec ){
-            SleepThread::usleep(interval_usec - elapsed_usec);
+        if( elapsed_usec < _interval_usec ){
+            SleepThread::usleep(_interval_usec - elapsed_usec);
         }
-        theClock.restart();
+        _timer.restart();
         float timePassedSec = (float)elapsed_usec * 1000000.0;
 
         //Process input
@@ -42,6 +65,8 @@ void GameEngine::run()
 
         //Render
         _gamestate->renderState();
+
+        _loopControl->start(_interval_msec);
     }
 
     //Handle exiting to main menu...

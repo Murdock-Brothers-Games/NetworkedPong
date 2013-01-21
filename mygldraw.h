@@ -69,6 +69,7 @@ protected:
 
 private:
 
+    GLuint _quadTexture;
     QTimer* _timer;
 
     QTime* _simulationTime;

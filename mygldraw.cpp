@@ -9,18 +9,21 @@ MyGLDraw::MyGLDraw(int screenWidth, int screenHeight, QWidget* parent):
     srand(time(NULL));
     resizeGL(_width,_height);
 
+
+
     //30 millisecond timer
     //_timer.setInterval(30);
-    _timer = new QTimer(this);
-    _simulationTime = new QTime();
-    _simulationTime->start();
-    connect(_timer, SIGNAL(timeout()), this, SLOT(myUpdate()));
-    _timer->start(15);
+    //_timer = new QTimer(this);
+    //_simulationTime = new QTime();
+    //_simulationTime->start();
+    //connect(_timer, SIGNAL(timeout()), this, SLOT(myUpdate()));
+    //_timer->start(15);
 
 }
 
 MyGLDraw::~MyGLDraw()
 {
+    glDeleteTextures(1, &_quadTexture);
 }
 
 QList<GameObject*> MyGLDraw::getGameObjects()
@@ -139,6 +142,8 @@ void MyGLDraw::initializeGL()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glGenTextures(1, &_quadTexture);
+
 }
 
 void MyGLDraw::resizeGL(int w, int h)
@@ -161,9 +166,19 @@ void MyGLDraw::paintGL()
     glDisable(GL_DEPTH_TEST);
 
     //Setup texture
-    GLuint quadTexture;
-    glGenTextures(1, &quadTexture);
 
+
+//    glBegin(GL_QUADS);
+//    glColor3f(1.0f, 1.0f, 1.0f);
+//    float wPoint = (_width / 4.0f);
+//    float hPoint = (_height / 4.0f);
+//    glVertex2f(wPoint, hPoint);
+//    glVertex2f(wPoint, hPoint*2.0f);
+//    glVertex2f(wPoint*2.0f, hPoint*2.0f);
+//    glVertex2f(wPoint*2.0f, hPoint);
+//    glEnd();
+//    qDebug() << "MyGLDraw::paintGL(): screenObjects.size = " <<
+//                _screenObjects.size();
     for(int i = 0; i < _screenObjects.size(); ++i){
         GameObject* gObj = _screenObjects[i];
         Position pos = gObj->getPosition();
@@ -180,7 +195,7 @@ void MyGLDraw::paintGL()
             QRgb alphaColor = qRgb(1.0f, 0.0f, 1.0f);
             QImage texAlpha = app.texture.createMaskFromColor(alphaColor);
             QImage textureOGL = QGLWidget::convertToGLFormat((const QImage&)texAlpha);
-            glBindTexture(GL_TEXTURE_2D, quadTexture);
+            glBindTexture(GL_TEXTURE_2D, _quadTexture);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth,
                          texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,
                          textureOGL.bits());
@@ -218,7 +233,6 @@ void MyGLDraw::paintGL()
             glEnd();
         }
     }
-    glDeleteTextures(1, &quadTexture);
 
     //Draw HUD elements here at some point.
 }

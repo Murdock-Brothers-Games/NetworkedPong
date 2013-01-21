@@ -13,6 +13,9 @@ PongState::PongState(int screenWidth, int screenHeight,
     this->setFocusPolicy(Qt::StrongFocus);
 
     _paddleVelPerSec = (screenHeight * 1.5);
+    _playerOneScore = 0;
+    _playerTwoScore = 0;
+    _scoreToWin = 10;
 }
 
 PongState::~PongState()

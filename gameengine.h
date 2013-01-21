@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QElapsedTimer>
+#include <QTimer>
 
 #include "gamestate.h"
 
@@ -14,7 +16,7 @@ public:
 
     ~GameEngine();
 
-    void run();
+
 
     void handleInput();
 
@@ -24,6 +26,8 @@ signals:
     
 public slots:
 
+    void slotRun();
+
     void slotExit();
 
 private:
@@ -32,6 +36,11 @@ private:
 
     void makeConnections();
 
+
+    QTimer* _loopControl;
+    QElapsedTimer _timer;
+    qint64 _interval_usec;
+    int _interval_msec;
 
     QVBoxLayout* _mainLayout;
 

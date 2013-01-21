@@ -15,7 +15,7 @@ QMainWindow(parent),
     setupUi();
 
     //Run the game.
-    _engine->run();
+    //_engine->run();
 }
 
 MainWindow::~MainWindow()
