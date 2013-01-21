@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 
-#include "mygldraw.h"
+#include "gameengine.h"
 
 class MainWindow : public QMainWindow
 {
@@ -18,7 +18,7 @@ public:
 private:
     void setupUi();
 
-    MyGLDraw* _screen;
+    GameEngine* _screen;
 
     QWidget* _main;
     QVBoxLayout* _mainLayout;

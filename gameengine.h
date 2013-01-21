@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QKeyEvent>
 
 #include "mygldraw.h"
 
@@ -19,6 +20,10 @@ public:
     void handleInput();
 
     void update(float dt);
+
+    void keyPressEvent(QKeyEvent *k);
+
+    void keyReleaseEvent(QKeyEvent *k);
     
 signals:
     
@@ -36,6 +41,7 @@ private:
     MyGLDraw* _screen;
 
     bool _exit;
+    bool p1PaddleUp, p1PaddleDown, p2PaddleUp, p2PaddleDown;
     
 };
 

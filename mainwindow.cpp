@@ -21,7 +21,7 @@ void MainWindow::setupUi()
     _mainLayout->setObjectName(QString("MainWindow::_mainLayout"));
     _main->setLayout(_mainLayout);
 
-    _screen = new MyGLDraw(_main);
+    _screen = new GameEngine(_main);
     _screen->setObjectName(QString("MainWindow::_screen"));
     _mainLayout->addWidget(_screen);
 
