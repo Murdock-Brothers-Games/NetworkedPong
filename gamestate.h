@@ -1,20 +1,21 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include <QObject>
+#include <QWidget>
 #include <QList>
+#include <QKeyEvent>
 
 #include "gameobject.h"
 #include "gameprimitives.h"
 
-class GameState : public QObject
+class GameState : public QWidget
 {
     Q_OBJECT
 public:
     GameState(int screenWidth, int screenHeight,
-              QObject *parent = 0);
+              QWidget *parent = 0);
 
-    GameState(QObject *parent = 0);
+    GameState(QWidget *parent = 0);
 
     virtual ~GameState();
 

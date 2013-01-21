@@ -9,17 +9,25 @@ class PongState : public GameState
 
 public:
     PongState(int screenWidth, int screenHeight,
-              QObject *parent=0);
+              QWidget *parent=0);
 
     ~PongState();
 
     void buildAssets();
+
+    void render();
+
+    void keyPressEvent(QKeyEvent *k);
+
+    void keyReleaseEvent(QKeyEvent *k);
 
 signals:
 
 public slots:
 
 private:
+
+    void setupUI();
 
     GameObject* _playerOne;
 
@@ -30,6 +38,8 @@ private:
     GameObject* _topWall;
 
     GameObject* _bottomWall;
+
+    bool _p1PaddleUp, _p1PaddleDown, _p2PaddleUp, _p2PaddleDown;
 
 };
 

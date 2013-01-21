@@ -3,9 +3,8 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QKeyEvent>
 
-#include "mygldraw.h"
+#include "pongstate.h"
 
 class GameEngine : public QWidget
 {
@@ -20,10 +19,6 @@ public:
     void handleInput();
 
     void update(float dt);
-
-    void keyPressEvent(QKeyEvent *k);
-
-    void keyReleaseEvent(QKeyEvent *k);
     
 signals:
     
@@ -38,10 +33,9 @@ private:
 
     QVBoxLayout* _mainLayout;
 
-    MyGLDraw* _screen;
+    PongState* _pongstate;
 
     bool _exit;
-    bool p1PaddleUp, p1PaddleDown, p2PaddleUp, p2PaddleDown;
     
 };
 

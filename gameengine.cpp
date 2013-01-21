@@ -1,12 +1,7 @@
 #include "gameengine.h"
-#include <QDebug>
 
 GameEngine::GameEngine(QWidget *parent) :
-    QWidget(parent),
-    p1PaddleUp(false),
-    p1PaddleDown(false),
-    p2PaddleUp(false),
-    p2PaddleDown(false)
+    QWidget(parent)
 {
     setupUi();
 }
@@ -34,7 +29,7 @@ void GameEngine::run()
         update(timePassed);
 
         //Render
-        _screen->render();
+        _pongstate->render();
     }
 
     //Handle exiting to main menu...
@@ -77,51 +72,11 @@ void GameEngine::setupUi()
     _mainLayout->setObjectName(QString::fromUtf8("GameEngine::mainLayout"));
     this->setLayout(_mainLayout);
 
-    //Create the rendering screen.
-    _screen = new MyGLDraw(this);
-    _screen->setObjectName(QString::fromUtf8("GameEngine::_screen"));
+    //Create the game state and display.
+    _pongstate = new PongState(680, 480, this);
+    _pongstate->setObjectName(QString::fromUtf8("GameEngine::_pongstate"));
 
     //Add the screen as our child widget.
-    _mainLayout->addWidget(_screen);
+    _mainLayout->addWidget(_pongstate);
 
-    this->setFocusPolicy(Qt::StrongFocus);
-
-}
-
-void GameEngine::keyPressEvent(QKeyEvent *k) {
-    switch(k->key()) {
-        case Qt::Key_Up:
-            p1PaddleUp = true;
-            break;
-        case Qt::Key_Down:
-            p1PaddleDown = true;
-            break;
-        case Qt::Key_W:
-            p2PaddleUp = true;
-            break;
-        case Qt::Key_S:
-            p2PaddleDown = true;
-            break;
-        default :
-            break;
-    }
-}
-
-void GameEngine::keyReleaseEvent(QKeyEvent *k) {
-    switch(k->key()) {
-        case Qt::Key_Up:
-            p1PaddleUp = false;
-            break;
-        case Qt::Key_Down:
-            p1PaddleDown = false;
-            break;
-        case Qt::Key_W:
-            p2PaddleUp = false;
-            break;
-        case Qt::Key_S:
-            p2PaddleDown = false;
-            break;
-        default :
-            break;
-    }
 }

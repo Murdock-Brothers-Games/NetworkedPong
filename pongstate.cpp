@@ -1,13 +1,29 @@
 #include "pongstate.h"
 
 PongState::PongState(int screenWidth, int screenHeight,
-                     QObject* parent):
-    GameState(screenWidth, screenHeight, parent)
+                     QWidget* parent):
+    GameState(screenWidth, screenHeight, parent),
+    _p1PaddleUp(false),
+    _p1PaddleDown(false),
+    _p2PaddleUp(false),
+    _p2PaddleDown(false)
 {
     setName(QString("Pong"));
+    setupUI();
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 PongState::~PongState()
+{
+
+}
+
+void setupUI()
+{
+
+}
+
+void render()
 {
 
 }
@@ -101,3 +117,44 @@ void PongState::buildAssets()
     _topWall->setInteractive(false);
 
 }
+
+void PongState::keyPressEvent(QKeyEvent *k) {
+    switch(k->key()) {
+        case Qt::Key_Up:
+            _p1PaddleUp = true;
+            break;
+        case Qt::Key_Down:
+            _p1PaddleDown = true;
+            break;
+        case Qt::Key_W:
+            _p2PaddleUp = true;
+            break;
+        case Qt::Key_S:
+            _p2PaddleDown = true;
+            break;
+        default :
+            break;
+    }
+    k->accept();
+}
+
+void PongState::keyReleaseEvent(QKeyEvent *k) {
+    switch(k->key()) {
+        case Qt::Key_Up:
+            _p1PaddleUp = false;
+            break;
+        case Qt::Key_Down:
+            _p1PaddleDown = false;
+            break;
+        case Qt::Key_W:
+            _p2PaddleUp = false;
+            break;
+        case Qt::Key_S:
+            _p2PaddleDown = false;
+            break;
+        default :
+            break;
+    }
+    k->accept();
+}
+

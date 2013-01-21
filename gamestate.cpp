@@ -4,15 +4,15 @@
 #include <QDebug>
 
 GameState::GameState(int screenWidth, int screenHeight,
-                     QObject *parent) :
-    QObject(parent),
+                     QWidget *parent) :
+    QWidget(parent),
     _screenWidth(screenWidth),
     _screenHeight(screenHeight)
 {
 }
 
-GameState::GameState(QObject *parent):
-    QObject(parent),
+GameState::GameState(QWidget *parent):
+    QWidget(parent),
     _screenWidth(0),
     _screenHeight(0),
     _name(QString(""))
