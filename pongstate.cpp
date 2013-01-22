@@ -312,8 +312,8 @@ void PongState::checkBallPaddleCollision()
     BoundingBox2D p1Paddle = _playerOne->getHitBox();
     BoundingBox2D p2Paddle = _playerTwo->getHitBox();
 
-    if( ball.intersectsY(p1Paddle) ||
-        ball.intersectsY(p2Paddle) ){
+    if( (ball.intersectsX(p1Paddle) && ball.intersectsY(p1Paddle)) ||
+        (ball.intersectsX(p2Paddle) && ball.intersectsY(p2Paddle)) ){
         Velocity ballV = _ball->getVelocity();
         ballV.x *= -1.0f;
         _ball->setVelocity(ballV);
@@ -352,7 +352,10 @@ void PongState::serveBall()
 
     //Set to a random velocity direction
     float randMult = ((float)rand() / (float)RAND_MAX);
-    float xComp = randMult*_ballVelPerSec;
+    //Chooses a random x-component to the velocity but
+    //guarantees that it is at least 25 pixels per second
+    //in the horizontal.
+    float xComp = (randMult*(_ballVelPerSec-25.0f))+25.0f;
     float yComp = sqrt(pow(_ballVelPerSec, 2.0f) - pow(xComp, 2.0f));
     Velocity ballVel(xComp, yComp, 0.0f);
     _ball->setVelocity(ballVel);
