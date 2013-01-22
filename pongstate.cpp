@@ -381,6 +381,8 @@ void PongState::serveBall()
     _ball->setPosition(ballPos);
 
     //Set to a random velocity direction
+    //(rand() / RAND_MAX) generates a random
+    //number between 0 and 1.
     float randMult = ((float)rand() / (float)RAND_MAX);
     float coinFlipVert = ((float)rand() / (float)RAND_MAX);
     float coinFlipHoriz = ((float)rand() / (float)RAND_MAX);
@@ -391,6 +393,12 @@ void PongState::serveBall()
     if( coinFlipHoriz > 0.5f ){
         xComp *= -1.0f;
     }
+    //Corresponding y velocity is chosen
+    //by solving for y  in the pythagorean theorum
+    //(hypotenuse^2 = x^2 + y^2).  The idea is that while the direction
+    //of the velocity will vary, the magnitude of the velocity
+    //will always be the same, and it will always
+    //be equal to _ballVelPerSec.
     float yComp = sqrt(pow(_ballVelPerSec, 2.0f) - pow(xComp, 2.0f));
     if( coinFlipVert > 0.5f ){
         yComp *= -1.0f;
