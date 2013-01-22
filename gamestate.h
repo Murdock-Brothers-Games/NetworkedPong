@@ -59,6 +59,8 @@ public:
 
     virtual void renderState();
 
+    virtual void startGame() = 0;
+
     
 signals:
 

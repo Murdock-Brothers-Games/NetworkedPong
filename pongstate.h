@@ -20,6 +20,8 @@ public:
 
     void handleInput();
 
+    void startGame();
+
     void keyPressEvent(QKeyEvent *k);
 
     void keyReleaseEvent(QKeyEvent *k);
@@ -37,6 +39,8 @@ private:
     void checkBallPaddleCollision();
 
     void checkGoalScored();
+
+    void serveBall();
 
     GameObject* _playerOne;
 
@@ -57,6 +61,8 @@ private:
     int _scoreToWin;
 
     float _paddleVelPerSec;
+
+    float _ballVelPerSec;
 
 };
 

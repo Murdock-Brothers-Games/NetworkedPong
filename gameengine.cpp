@@ -25,7 +25,9 @@ GameEngine::GameEngine(GameState *game, QWidget *parent) :
     _gamestate->buildAssets();
     setupUi();
 
-    //Create timing objects
+    //Start up the game
+    _gamestate->startGame();
+    //Start timeres
     _timer.start();
     _loopControl->start(_interval_msec);
 }
@@ -48,14 +50,14 @@ void GameEngine::slotRun()
         //handle event loop stuff
         //qApp->processEvents();
 
-        qDebug() << "GameEngine::run():";
+        //qDebug() << "GameEngine::run():";
         qint64 elapsed_nsec = _timer.nsecsElapsed();
         qint64 elapsed_usec = (elapsed_nsec / 1000);
         if( elapsed_usec < _interval_usec ){
             SleepThread::usleep(_interval_usec - elapsed_usec);
         }
         _timer.restart();
-        float timePassedSec = (float)elapsed_usec * 1000000.0;
+        float timePassedSec = (float)elapsed_usec / 1000000.0;
 
         //Process input
         handleInput();

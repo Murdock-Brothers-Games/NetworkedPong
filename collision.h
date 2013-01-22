@@ -13,30 +13,34 @@ typedef struct BoundingBox2D{
         startY = pos.y;
         endX = startX + vol.width;
         endY = startY + vol.height;
-    }
+    };
     BoundingBox2D(){
         startX = 0.0f;
         startY = 0.0f;
         endX = 0.0f;
         endY = 0.0f;
-    }
+    };
     bool intersectsX(const BoundingBox2D& other){
         if( startX >= other.endX || endX <= other.startX ){
             return false;
         }else{
             return true;
         }
-    }
+    };
     bool intersectsY(const BoundingBox2D& other){
         if( startY >= other.endY || endY <= other.startY ){
             return false;
         }else{
             return true;
         }
-    }
+    };
     bool intersects(const BoundingBox2D& other){
         return (intersectsX(other) || intersectsY(other));
-    }
+    };
+    QString getPrint(){
+        return QString("BoundingBox2D: startX = %1, startY = %2, endX = %3, endY = %4").arg(
+                    startX).arg(startY).arg(endX).arg(endY);
+    };
 
 } BoundingBox2D;
 

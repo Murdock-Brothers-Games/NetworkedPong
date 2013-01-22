@@ -90,6 +90,8 @@ public:
 
     void loadTexture(QString filename);
 
+    virtual void print();
+
     
 signals:
     

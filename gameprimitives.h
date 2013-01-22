@@ -22,6 +22,10 @@ typedef struct Volume{
         depth = 0.0f;
         threeD = false;
     };
+    QString getPrint(){
+        return QString("Volume: width = %1, height = %2, depth = %3, threeD = %4").arg(
+                    width).arg(height).arg(depth).arg(threeD);
+    };
 } Volume;
 
 typedef struct Position{
@@ -37,6 +41,10 @@ typedef struct Position{
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
+    };
+    QString getPrint(){
+        return QString("Position: x = %1, y = %2, z = %3").arg(
+                    x).arg(y).arg(z);
     };
     bool operator==(const Position& other){
         return (x == other.x &&
@@ -114,6 +122,10 @@ typedef struct Velocity{
        y = 0.0f;
        z = 0.0f;
    };
+   QString getPrint(){
+       return QString("Velocity: x = %1, y = %2, z = %3").arg(
+                   x).arg(y).arg(z);
+   };
    bool operator==(const Velocity& other){
        return (x == other.x &&
                y == other.y &&
@@ -189,6 +201,10 @@ typedef struct Acceleration{
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
+    };
+    QString getPrint(){
+        return QString("Acceleration: x = %1, y = %2, z = %3").arg(
+                    x).arg(y).arg(z);
     };
     bool operator==(const Acceleration& other){
         return (x == other.x &&
@@ -293,6 +309,11 @@ typedef struct Appearance{
       texEndY = 0;
       //texWidth = 0;
       //texHeight = 0;
+    };
+    QString getPrint(){
+        return QString("Appearance: r = %1, g = %2, b = %3, alpha = %4, textured = %5, texStartX = %6, texStartY = %7, texEndX = %8, texEndY = %9").arg(
+                    r).arg(g).arg(b).arg(alpha).arg(textured).arg(
+                    texStartX).arg(texStartY).arg(texEndX).arg(texEndY);
     };
 } Appearance;
 

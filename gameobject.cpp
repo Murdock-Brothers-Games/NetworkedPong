@@ -3,7 +3,8 @@
 #include <QFile> //For loading texture image
 
 GameObject::GameObject(QString name, Position pos, QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    _myName(name)
 {
 }
 
@@ -29,6 +30,10 @@ Volume GameObject::getVolume()
 void GameObject::setVolume(Volume vol)
 {
     _myVolume = vol;
+    //Don't let hitbox get out of sync
+    //with volume
+    _myHitBox.endX = _myHitBox.startX + vol.width;
+    _myHitBox.endY = _myHitBox.startY + vol.height;
 }
 
 BoundingBox2D GameObject::getHitBox()
@@ -63,6 +68,8 @@ void GameObject::setPosition(Position pos)
     //with position
     _myHitBox.startX = _curPosition.x;
     _myHitBox.startY = _curPosition.y;
+    _myHitBox.endX = _curPosition.x + _myVolume.width;
+    _myHitBox.endY = _curPosition.y + _myVolume.height;
 }
 
 Velocity GameObject::getVelocity()
@@ -267,6 +274,8 @@ void GameObject::loadTexture(QString filename)
 
 void GameObject::updateMovement(float dt)
 {
+    //qDebug() << "GameObject::updateMovement...";
+    //this->print();
     //Update position
     //_newPosition.x = _curPosition.x + (_curVelocity.x*dt);
     _curPosition.x = _curPosition.x + (_curVelocity.x*dt);
@@ -276,10 +285,10 @@ void GameObject::updateMovement(float dt)
     _curPosition.z = _curPosition.z + (_curVelocity.z*dt);
     //Don't let hitbox get out of sync
     //with position
-    //_myHitBox.startX = _newPosition.x;
     _myHitBox.startX = _curPosition.x;
-    //_myHitBox.startY = _newPosition.y;
     _myHitBox.startY = _curPosition.y;
+    _myHitBox.endX = _myHitBox.startX + _myVolume.width;
+    _myHitBox.endY = _myHitBox.startY + _myVolume.height;
 
     //Update velocity
     //_newVelocity.x = _curVelocity.x + (_curAcceleration.x*dt);
@@ -307,5 +316,23 @@ void GameObject::updateForces(float dt)
             }
         }
     }
+}
+
+void GameObject::print()
+{
+    qDebug() << QString("GameObject::print(): Printing GameObject...");
+    qDebug() << QString("GameObject::print(): Name = %1").arg(_myName);
+    qDebug() << QString("GameObject::print(): Position = %1").arg(_curPosition.getPrint());
+    qDebug() << QString("GameObject::print(): Volume = %1").arg(_myVolume.getPrint());
+    qDebug() << QString("GameObject::print(): HitBox = %1").arg(_myHitBox.getPrint());
+    qDebug() << QString("GameObject::print(): Velocity = %1").arg(_curVelocity.getPrint());
+    qDebug() << QString("GameObject::print(): Acceleration = %1").arg(_curAcceleration.getPrint());
+    qDebug() << QString("GameObject::print(): Appearance = %1").arg(_myAppearance.getPrint());
+    qDebug() << QString("GameObject::print(): collidable? = %1").arg(_collidable);
+    qDebug() << QString("GameObject::print(): solid? = %1").arg(_solid);
+    qDebug() << QString("GameObject::print(): mobile? = %1").arg(_mobile);
+    qDebug() << QString("GameObject::print(): interactive? = %1").arg(_interactive);
+    qDebug() << QString("GameObject::print(): playable? = %1").arg(_playable);
+    qDebug() << "";
 }
 

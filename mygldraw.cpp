@@ -6,7 +6,7 @@ MyGLDraw::MyGLDraw(int screenWidth, int screenHeight, QWidget* parent):
   _width(screenWidth),
   _height(screenHeight)
 {
-    srand(time(NULL));
+    //srand(time(NULL));
     resizeGL(_width,_height);
 
 
