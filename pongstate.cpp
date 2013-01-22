@@ -336,7 +336,11 @@ void PongState::checkGoalScored()
         //Handle any score stuff
         QMessageBox::information(this, "Winner",
                                  QString("Player %1 wins!").arg(winner));
-        emit gameOver();
+        //Instead of quitting, just reset the game.
+        //User can close the game whenever they want.
+        //emit gameOver();
+        startGame();
+
     }else if(goalScored){
         serveBall();
     }
