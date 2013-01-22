@@ -261,9 +261,6 @@ void PongState::checkPaddleWallCollision()
     BoundingBox2D p1Paddle = _playerOne->getHitBox();
     BoundingBox2D p2Paddle = _playerTwo->getHitBox();
 
-    if( p1Paddle.endY > tWall.startY ){
-        qDebug() << "PongState::checkPaddleWallCollision(): Error!";
-    }
     if( p1Paddle.intersectsY(tWall) ){
         Velocity p1Vel = _playerOne->getVelocity();
         Position p1Pos = _playerOne->getPosition();
@@ -352,11 +349,19 @@ void PongState::serveBall()
 
     //Set to a random velocity direction
     float randMult = ((float)rand() / (float)RAND_MAX);
+    float coinFlipVert = ((float)rand() / (float)RAND_MAX);
+    float coinFlipHoriz = ((float)rand() / (float)RAND_MAX);
     //Chooses a random x-component to the velocity but
-    //guarantees that it is at least 25 pixels per second
+    //guarantees that it is at least 100 pixels per second
     //in the horizontal.
-    float xComp = (randMult*(_ballVelPerSec-25.0f))+25.0f;
+    float xComp = (randMult*(_ballVelPerSec-100.0f))+100.0f;
+    if( coinFlipHoriz > 0.5f ){
+        xComp *= -1.0f;
+    }
     float yComp = sqrt(pow(_ballVelPerSec, 2.0f) - pow(xComp, 2.0f));
+    if( coinFlipVert > 0.5f ){
+        yComp *= -1.0f;
+    }
     Velocity ballVel(xComp, yComp, 0.0f);
     _ball->setVelocity(ballVel);
 

@@ -24,6 +24,7 @@ GameEngine::GameEngine(GameState *game, QWidget *parent) :
     //Constructs the game
     _gamestate->buildAssets();
     setupUi();
+    makeConnections();
 
     //Start up the game
     _gamestate->startGame();
@@ -102,7 +103,10 @@ void GameEngine::update(float dt)
 
 void GameEngine::slotExit()
 {
+    qDebug() << "GameEngine::slotExit()";
     _exit = true;
+//    disconnect( _loopControl, SIGNAL(timeout()),
+//                this, SLOT(slotRun()) );
 }
 
 void GameEngine::setupUi()
@@ -125,6 +129,6 @@ void GameEngine::makeConnections()
 {
     //Connect the gameOver signal from the
     //game state to this class's exit function.
-    connect( _gamestate, SIGNAL(gaveOver()),
+    connect( _gamestate, SIGNAL(gameOver()),
              this, SLOT(slotExit()) );
 }
