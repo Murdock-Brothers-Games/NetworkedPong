@@ -7,7 +7,15 @@ PongState::PongState(int screenWidth, int screenHeight,
     _p1PaddleUp(false),
     _p1PaddleDown(false),
     _p2PaddleUp(false),
-    _p2PaddleDown(false)
+    _p2PaddleDown(false),
+    _playerOneScore(0),
+    _playerTwoScore(0),
+    _scoreToWin(10),
+    _paddleVelPerSec(0.0f),
+    _ballVelPerSec(0.0f),
+    _paddleStartY(0.0f),
+    _paddleOneStartX(0.0f),
+    _paddleTwoStartX(0.0f)
 {
     //Seed the random number generator
     srand(time(NULL));
@@ -33,7 +41,9 @@ void PongState::buildAssets()
     float paddleWidth = (float)(_screenWidth) / 20.0f;
     float paddleHeight = (float)(_screenHeight) / 4.0f;
     Volume paddleVol(paddleWidth, paddleHeight, 0.0f, false);
-    float paddleStartY = ((float)(_screenHeight) * 0.5f) - (paddleHeight*0.5f);
+    _paddleStartY = ((float)(_screenHeight) * 0.5f) - (paddleHeight*0.5f);
+    _paddleOneStartX = 0.0f;
+    _paddleTwoStartX = _screenWidth-paddleWidth;
 
     Appearance pongAppearance;
     pongAppearance.r = 1.0f;
@@ -43,7 +53,7 @@ void PongState::buildAssets()
     pongAppearance.textured = false;
 
     //Player one starting position:
-    Position p1Pos(0.0f, paddleStartY, 0.0f);
+    Position p1Pos(_paddleOneStartX, _paddleStartY, 0.0f);
     BoundingBox2D p1HBox(p1Pos, paddleVol);
 
     _playerOne = new GameObject(QString("playerOne"), p1Pos, this);
@@ -60,7 +70,7 @@ void PongState::buildAssets()
     _playerOne->print();
 
     //Player two starting position:
-    Position p2Pos(_screenWidth-paddleWidth, paddleStartY, 0.0f);
+    Position p2Pos(_paddleTwoStartX, _paddleStartY, 0.0f);
     BoundingBox2D p2HBox(p2Pos, paddleVol);
 
     _playerTwo = new GameObject(QString("playerTwo"), p2Pos, this);
@@ -183,6 +193,13 @@ void PongState::startGame()
 {
     _playerOneScore = 0;
     _playerTwoScore = 0;
+    Position p1Pos(_paddleOneStartX, _paddleStartY, 0.0f);
+    Position p2Pos(_paddleTwoStartX, _paddleStartY, 0.0f);
+    Velocity paddleVel(0.0f, 0.0f, 0.0f);
+    _playerOne->setPosition(p1Pos);
+    _playerOne->setVelocity(paddleVel);
+    _playerTwo->setPosition(p2Pos);
+    _playerTwo->setVelocity(paddleVel);
     serveBall();
 }
 
@@ -309,23 +326,35 @@ void PongState::checkBallPaddleCollision()
     BoundingBox2D p1Paddle = _playerOne->getHitBox();
     BoundingBox2D p2Paddle = _playerTwo->getHitBox();
 
-    if( (ball.intersectsX(p1Paddle) && ball.intersectsY(p1Paddle)) ||
-        (ball.intersectsX(p2Paddle) && ball.intersectsY(p2Paddle)) ){
-        Velocity ballV = _ball->getVelocity();
-        ballV.x *= -1.0f;
-        _ball->setVelocity(ballV);
+    Position ballPos = _ball->getPosition();
+    Volume ballVol = _ball->getVolume();
+    Velocity ballVel = _ball->getVelocity();
+    if( (ball.intersectsX(p1Paddle) && ball.intersectsY(p1Paddle)) ){
+        ballVel.x *= -1.0f;
+        _ball->setVelocity(ballVel);
+
+        ballPos.x = p1Paddle.endX;
+        _ball->setPosition(ballPos);
+    }else if( (ball.intersectsX(p2Paddle) && ball.intersectsY(p2Paddle)) ){
+        ballVel.x *= -1.0f;
+        _ball->setVelocity(ballVel);
+
+        ballPos.x = p2Paddle.startX - ballVol.width;
+        _ball->setPosition(ballPos);
     }
 }
 
 void PongState::checkGoalScored()
 {
-    Position ballPos = _ball->getPosition();
+    //Position ballPos = _ball->getPosition();
+    BoundingBox2D ballPos = _ball->getHitBox();
+
     bool goalScored = false;
-    if( ballPos.x < 0.0f ){
+    if( ballPos.endX < 0.0f ){
         _playerTwoScore++;
         goalScored = true;
 
-    }else if( ballPos.x > _screenWidth ){
+    }else if( ballPos.startX > _screenWidth ){
         _playerOneScore++;
         goalScored = true;
     }

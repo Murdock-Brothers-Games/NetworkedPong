@@ -64,6 +64,12 @@ private:
 
     float _ballVelPerSec;
 
+    float _paddleStartY;
+
+    float _paddleOneStartX;
+
+    float _paddleTwoStartX;
+
 };
 
 #endif // PONGSTATE_H
