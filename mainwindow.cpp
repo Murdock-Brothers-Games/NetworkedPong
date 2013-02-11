@@ -14,6 +14,8 @@ QMainWindow(parent),
     //Setup the GUI
     setupUi();
 
+    _soundMan = new SoundManager();
+
     //Run the game.
     //_engine->run();
 }

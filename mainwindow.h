@@ -6,6 +6,7 @@
 
 #include "gameengine.h"
 #include "pongstate.h"
+#include "soundmanager.h"
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +22,8 @@ private:
 
     GameEngine* _engine;
     PongState* _pongGame;
+
+    SoundManager* _soundMan;
 
     QWidget* _main;
     QVBoxLayout* _mainLayout;

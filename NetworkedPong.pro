@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl phonon
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     gameengine.cpp \
     gamestate.cpp \
     pongstate.cpp \
-    sleepthread.cpp
+    sleepthread.cpp \
+    soundmanager.cpp
 
 HEADERS  += mainwindow.h \
     mygldraw.h \
@@ -32,4 +33,5 @@ HEADERS  += mainwindow.h \
     gameengine.h \
     gamestate.h \
     pongstate.h \
-    sleepthread.h
+    sleepthread.h \
+    soundmanager.h
