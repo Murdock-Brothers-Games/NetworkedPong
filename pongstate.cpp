@@ -331,12 +331,24 @@ void PongState::checkBallPaddleCollision()
     Velocity ballVel = _ball->getVelocity();
     if( (ball.intersectsX(p1Paddle) && ball.intersectsY(p1Paddle)) ){
         ballVel.x *= -1.0f;
+        //Speed up the ball every time it gets hit
+        if( ballVel.x > 0 ){
+            ballVel.x += 25.0f;
+        }else{
+            ballVel.x -= 25.0f;
+        }
         _ball->setVelocity(ballVel);
 
         ballPos.x = p1Paddle.endX;
         _ball->setPosition(ballPos);
     }else if( (ball.intersectsX(p2Paddle) && ball.intersectsY(p2Paddle)) ){
         ballVel.x *= -1.0f;
+        //Speed up the ball every time it gets hit
+        if( ballVel.x > 0 ){
+            ballVel.x += 25.0f;
+        }else{
+            ballVel.x -= 25.0f;
+        }
         _ball->setVelocity(ballVel);
 
         ballPos.x = p2Paddle.startX - ballVol.width;
