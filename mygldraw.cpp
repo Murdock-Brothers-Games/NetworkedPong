@@ -128,7 +128,7 @@ void MyGLDraw::initializeGL()
     glLoadIdentity();
 
     //Let OpenGL clear to black
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     //glClearColor(0.63f, 0.32f, 0.18f, 0.0f);
     //we want smooth shading...
     glShadeModel(GL_SMOOTH);
@@ -255,7 +255,17 @@ void MyGLDraw::paintGL()
             glVertex2f(pos.x+vol.width, pos.y);
             glEnd();
         }
+        //Debug purposes: draw hit box highlighted in green.
+        glBegin(GL_LINE_LOOP);
+        glColor3f(0.0f, 1.0f, 0.0f);
+        BoundingBox2D theHBox = gObj->getHitBox();
+        glVertex2f(theHBox.startX, theHBox.startY);
+        glVertex2f(theHBox.startX, theHBox.endY);
+        glVertex2f(theHBox.endX, theHBox.endY);
+        glVertex2f(theHBox.endX, theHBox.startY);
+        glEnd();
     }
+
 
     //Draw HUD elements here at some point.
 }

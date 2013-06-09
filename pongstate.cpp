@@ -22,8 +22,8 @@ PongState::PongState(int screenWidth, int screenHeight,
     setName(QString("Pong"));
     this->setFocusPolicy(Qt::StrongFocus);
 
-    _paddleVelPerSec = (float)(screenHeight*1.5);
-    _ballVelPerSec = _paddleVelPerSec*.85;
+    _paddleVelPerSec = (float)(screenHeight*1.5f);
+    _ballVelPerSec = _paddleVelPerSec*.85f;
     qDebug() << "PongState::PongState(): paddleVelPerSec = " << _paddleVelPerSec;
     _playerOneScore = 0;
     _playerTwoScore = 0;
@@ -130,7 +130,13 @@ void PongState::buildAssets()
     Position ballPos((_screenWidth*0.5f),(_screenHeight*0.5f),0.0f);
     Volume ballVol(_screenWidth*0.075f, _screenHeight*0.075f, 0.0f);
 
-    BoundingBox2D ballHBox(ballPos, ballVol);
+    Position ballHBoxPos(ballPos.x + (ballVol.width*0.1f),
+                         ballPos.y + (ballVol.height*0.1f),
+                         0.0f);
+    Volume ballHBoxVol(ballVol.width - (ballVol.width*0.2f),
+                       ballVol.height - (ballVol.height*0.2f),
+                       0.0f);
+    BoundingBox2D ballHBox(ballHBoxPos, ballHBoxVol);
     Appearance ballAppearance;
    // QImage baseTexture("PongGameArt\EnergyBall.jpg");
     //QImage maskTexture = baseTexture.createMaskFromColor(QRgb(0,0,0), Qt::MaskOutColor);

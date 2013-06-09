@@ -67,13 +67,21 @@ Position GameObject::getPosition()
 
 void GameObject::setPosition(Position pos)
 {
+    //First, determine what offset (if any)
+    //exists between the position and the hitbox
+    float hBoxOffX = _myHitBox.startX - _curPosition.x;
+    float hBoxWidth = _myHitBox.endX - _myHitBox.startX;
+    float hBoxOffY = _myHitBox.startY - _curPosition.y;
+    float hBoxHeight = _myHitBox.endY - _myHitBox.startY;
     _curPosition = pos;
     //Don't let hitbox get out of sync
     //with position
-    _myHitBox.startX = _curPosition.x;
-    _myHitBox.startY = _curPosition.y;
-    _myHitBox.endX = _curPosition.x + _myVolume.width;
-    _myHitBox.endY = _curPosition.y + _myVolume.height;
+    _myHitBox.startX = _curPosition.x + hBoxOffX;
+    _myHitBox.startY = _curPosition.y + hBoxOffY;
+    //_myHitBox.endX = _curPosition.x + _myVolume.width;
+    _myHitBox.endX = _myHitBox.startX + hBoxWidth;
+    //_myHitBox.endY = _curPosition.y + _myVolume.height;
+    _myHitBox.endY = _myHitBox.startY + hBoxHeight;
 }
 
 Velocity GameObject::getVelocity()
@@ -289,10 +297,16 @@ void GameObject::updateMovement(float dt)
     _curPosition.z = _curPosition.z + (_curVelocity.z*dt);
     //Don't let hitbox get out of sync
     //with position
-    _myHitBox.startX = _curPosition.x;
-    _myHitBox.startY = _curPosition.y;
-    _myHitBox.endX = _myHitBox.startX + _myVolume.width;
-    _myHitBox.endY = _myHitBox.startY + _myVolume.height;
+    float hBoxWidth = _myHitBox.endX - _myHitBox.startX;
+    float hBoxHeight = _myHitBox.endY - _myHitBox.startY;
+    //_myHitBox.startX = _curPosition.x;
+    _myHitBox.startX = _myHitBox.startX + (_curVelocity.x*dt);
+    //_myHitBox.startY = _curPosition.y;
+    _myHitBox.startY = _myHitBox.startY + (_curVelocity.y*dt);
+    //_myHitBox.endX = _myHitBox.startX + _myVolume.width;
+    _myHitBox.endX = _myHitBox.startX + hBoxWidth;
+    //_myHitBox.endY = _myHitBox.startY + _myVolume.height;
+    _myHitBox.endY = _myHitBox.startY + hBoxHeight;
 
     //Update velocity
     //_newVelocity.x = _curVelocity.x + (_curAcceleration.x*dt);
