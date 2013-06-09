@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>EnergyBallCropped2.png</file>
+        <file>metalTexture.png</file>
+        <file>lightningArcCropped.png</file>
+    </qresource>
+</RCC>
