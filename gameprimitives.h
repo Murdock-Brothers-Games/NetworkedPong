@@ -290,12 +290,12 @@ typedef struct Appearance{
     //Texture
     bool textured;   //Maybe
     QImage texture;  //Maybe
-    int texStartX; //Maybe
-    int texStartY; //Maybe
-    int texEndX;
-    int texEndY;
-    //int texWidth;   //Maybe
-    //int texHeight;   //Maybe
+    float texStartX; //Maybe
+    float texStartY; //Maybe
+    float texEndX;
+    float texEndY;
+    int texImageWidth;   //Maybe
+    int texImageHeight;   //Maybe
     Appearance(){
       visible = false;
       r = 0.0f;

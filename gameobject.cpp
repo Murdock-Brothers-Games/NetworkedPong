@@ -10,6 +10,10 @@ GameObject::GameObject(QString name, Position pos, QObject *parent):
 
 GameObject::~GameObject()
 {
+//    if(_myAppearance.texture != NULL){
+//        delete [] _myAppearance.texture;
+//        _myAppearance.texture = NULL;
+//    }
 }
 
 QString GameObject::getName()

@@ -9,7 +9,7 @@ QMainWindow(parent),
   _engine(NULL)
 {
     //Create our PongGame...
-    _pongGame = new PongState(640, 480);
+    _pongGame = new PongState(800, 600);
 
     //Setup the GUI
     setupUi();

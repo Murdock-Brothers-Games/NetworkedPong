@@ -35,3 +35,8 @@ HEADERS  += mainwindow.h \
     pongstate.h \
     sleepthread.h \
     soundmanager.h
+
+OTHER_FILES +=
+
+RESOURCES += \
+    PongResources.qrc

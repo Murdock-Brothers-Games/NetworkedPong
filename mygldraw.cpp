@@ -132,7 +132,7 @@ void MyGLDraw::initializeGL()
     //glClearColor(0.63f, 0.32f, 0.18f, 0.0f);
     //we want smooth shading...
     glShadeModel(GL_SMOOTH);
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
     //Alpha blending (transparency)
@@ -185,19 +185,37 @@ void MyGLDraw::paintGL()
         Volume vol = gObj->getVolume();
         Appearance app = gObj->getAppearance();
         if( app.textured ){
+            glEnable(GL_TEXTURE_2D);
             //Handle the texture stuff
-            int texWidth = (app.texEndX - app.texStartX);
-            int texHeight = (app.texEndY - app.texStartY);
+            //int texWidth = (app.texEndX - app.texStartX);
+            //int texHeight = (app.texEndY - app.texStartY);
 
             //First, ensure we make the regions of the image
             //transparent that should be.  Replace any part of
             //the texture that matches this color with transparency.
-            QRgb alphaColor = qRgb(1.0f, 0.0f, 1.0f);
-            QImage texAlpha = app.texture.createMaskFromColor(alphaColor);
-            QImage textureOGL = QGLWidget::convertToGLFormat((const QImage&)texAlpha);
+            //QRgb alphaColor = qRgb(1.0f, 0.0f, 1.0f);
+//            QRgb alphaColor = qRgb(0.0f, 0.0f, 0.0f);
+//            QImage texAlpha = app.texture.createMaskFromColor(alphaColor, Qt::MaskOutColor);
+
+//            for(int i = 0; i < texHeight; ++i){
+//                for(int j = 0; j < texWidth; ++j){
+//                    QRgb curPixel = app.texture.pixel(j,i);
+//                    QRgb alphaPixel = qRgba(qRed(curPixel), qGreen(curPixel),
+//                                            qBlue(curPixel),
+//                                            qRed(texAlpha.pixel(j,i)) );
+//                    app.texture.setPixel(j, i, alphaPixel);
+//                }
+//            }
+            //QImage textureOGL = QGLWidget::convertToGLFormat((const QImage&)texAlpha);
+            QImage textureOGL = QGLWidget::convertToGLFormat(app.texture);
+//            if(textureOGL.hasAlphaChannel()){
+//                qDebug() << "Texture has alpha channel.";
+//            }else{
+//                qDebug() << "Texture does not have alpha channel.";
+//            }
             glBindTexture(GL_TEXTURE_2D, _quadTexture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth,
-                         texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, app.texImageWidth,
+                         app.texImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,
                          textureOGL.bits());
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -208,21 +226,26 @@ void MyGLDraw::paintGL()
             //glColor3f(1.0f, 1.0f, 1.0f);
 
             //Bottom left
+            //glTexCoord2f(0.0f, 0.0f);
             glTexCoord2f(app.texStartX, app.texStartY);
             glVertex2f(pos.x, pos.y);
 
             //Top left
+            //glTexCoord2f(0.0f, 1.0f);
             glTexCoord2f(app.texStartX, app.texEndY);
             glVertex2f(pos.x, pos.y+vol.height);
 
             //Top right
+            //glTexCoord2f(1.0f, 1.0f);
             glTexCoord2f(app.texEndX, app.texEndY);
             glVertex2f(pos.x+vol.width, pos.y+vol.height);
 
             //Bottom right
+            //glTexCoord2f(1.0f, 0.0f);
             glTexCoord2f(app.texEndX, app.texStartY);
             glVertex2f(pos.x+vol.width, pos.y);
             glEnd();
+            glDisable(GL_TEXTURE_2D);
         }else{
             glBegin(GL_QUADS);
             glColor4f(app.r, app.g, app.b, app.alpha);

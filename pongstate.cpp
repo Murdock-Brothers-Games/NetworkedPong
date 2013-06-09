@@ -52,6 +52,43 @@ void PongState::buildAssets()
     pongAppearance.alpha = 1.0f;
     pongAppearance.textured = false;
 
+    Appearance paddleAppearance;
+    //QImage paddleTexture("C:\\Users\\Chris\\Pictures\\PongGameArt\\lightningArcCropped.png");
+    QImage paddleTexture(":/images/lightningArcCropped.png");
+    if(paddleTexture.isNull()){
+        qDebug() << "Error: could not load texture image.";
+    }else{
+        //First, ensure we make the regions of the image
+        //transparent that should be.  Replace any part of
+        //the texture that matches this color with transparency.
+        //QRgb alphaColor = qRgb(1.0f, 0.0f, 1.0f);
+        QRgb alphaColor = qRgb(0.0f, 0.0f, 0.0f);
+        QImage texAlpha = paddleTexture.createMaskFromColor(alphaColor, Qt::MaskOutColor);
+        const unsigned int texHeight = paddleTexture.height();
+        const unsigned int texWidth = paddleTexture.width();
+        for(unsigned int i = 0; i < texHeight; ++i){
+            for(unsigned int j = 0; j < texWidth; ++j){
+                QRgb curPixel = paddleTexture.pixel(j,i);
+                QRgb alphaPixel = qRgba(qRed(curPixel), qGreen(curPixel),
+                                        qBlue(curPixel),
+                                        qRed(texAlpha.pixel(j,i)) );
+                paddleTexture.setPixel(j, i, alphaPixel);
+            }
+        }
+        //We have now replaced the alpha channel in "paddleTexture"
+        //with the alpha channel we dictated with our newly
+        //created alpha mask.
+    }
+    paddleAppearance.texture = paddleTexture;
+    paddleAppearance.texStartX = 0.0f;
+    paddleAppearance.texEndX = 1.0f;
+    paddleAppearance.texStartY = 0.0f;
+    paddleAppearance.texEndY = 1.0f;
+    paddleAppearance.texImageWidth = paddleAppearance.texture.width();
+    paddleAppearance.texImageHeight = paddleAppearance.texture.height();
+    paddleAppearance.textured = true;
+
+
     //Player one starting position:
     Position p1Pos(_paddleOneStartX, _paddleStartY, 0.0f);
     BoundingBox2D p1HBox(p1Pos, paddleVol);
@@ -60,7 +97,8 @@ void PongState::buildAssets()
     _playerOne->setPosition(p1Pos);
     _playerOne->setVolume(paddleVol);
     _playerOne->setHitBox(p1HBox);
-    _playerOne->setAppearance(pongAppearance);
+    //_playerOne->setAppearance(pongAppearance);
+    _playerOne->setAppearance(paddleAppearance);
     _playerOne->setCollidable(true);
     _playerOne->setSolid(true);
     _playerOne->setMobile(true);
@@ -77,7 +115,8 @@ void PongState::buildAssets()
     _playerTwo->setPosition(p2Pos);
     _playerTwo->setVolume(paddleVol);
     _playerTwo->setHitBox(p2HBox);
-    _playerTwo->setAppearance(pongAppearance);
+    //_playerTwo->setAppearance(pongAppearance);
+    _playerTwo->setAppearance(paddleAppearance);
     _playerTwo->setCollidable(true);
     _playerTwo->setSolid(true);
     _playerTwo->setMobile(true);
@@ -88,13 +127,53 @@ void PongState::buildAssets()
 
     //Ball
     Position ballPos((_screenWidth*0.5f),(_screenHeight*0.5f),0.0f);
-    Volume ballVol(_screenWidth*0.05f, _screenHeight*0.05f, 0.0f);
+    Volume ballVol(_screenWidth*0.075f, _screenHeight*0.075f, 0.0f);
+
     BoundingBox2D ballHBox(ballPos, ballVol);
+    Appearance ballAppearance;
+   // QImage baseTexture("PongGameArt\EnergyBall.jpg");
+    //QImage maskTexture = baseTexture.createMaskFromColor(QRgb(0,0,0), Qt::MaskOutColor);
+    //QImage ballTexture("C:\\Users\\Chris\\Pictures\\PongGameArt\\EnergyBallCropped2.png");
+    QImage ballTexture(":/images/EnergyBallCropped2.png");
+    if(ballTexture.isNull()){
+        qDebug() << "Error: could not load texture image.";
+    }else{
+        //First, ensure we make the regions of the image
+        //transparent that should be.  Replace any part of
+        //the texture that matches this color with transparency.
+        //QRgb alphaColor = qRgb(1.0f, 0.0f, 1.0f);
+        QRgb alphaColor = qRgb(0.0f, 0.0f, 0.0f);
+        QImage texAlpha = ballTexture.createMaskFromColor(alphaColor, Qt::MaskOutColor);
+        const unsigned int texHeight = ballTexture.height();
+        const unsigned int texWidth = ballTexture.width();
+        for(unsigned int i = 0; i < texHeight; ++i){
+            for(unsigned int j = 0; j < texWidth; ++j){
+                QRgb curPixel = ballTexture.pixel(j,i);
+                QRgb alphaPixel = qRgba(qRed(curPixel), qGreen(curPixel),
+                                        qBlue(curPixel),
+                                        qRed(texAlpha.pixel(j,i)) );
+                ballTexture.setPixel(j, i, alphaPixel);
+            }
+        }
+        //We have now replaced the alpha channel in "ballTexture"
+        //with the alpha channel we dictated with our newly
+        //created alpha mask.
+    }
+    //ballAppearance.texture = QImage("PongGameArt\EnergyBall.jpg");
+    ballAppearance.texture = (ballTexture);
+    ballAppearance.textured = true;
+    ballAppearance.texStartX = 0.0f;
+    ballAppearance.texEndX = 1.0f;
+    ballAppearance.texStartY = 0.0f;
+    ballAppearance.texEndY = 1.0f;
+    ballAppearance.texImageWidth = ballAppearance.texture.width();
+    ballAppearance.texImageHeight = ballAppearance.texture.height();
     _ball = new GameObject(QString("ball"), ballPos, this);
     _ball->setPosition(ballPos);
     _ball->setVolume(ballVol);
     _ball->setHitBox(ballHBox);
-    _ball->setAppearance(pongAppearance);
+    //_ball->setAppearance(pongAppearance);
+    _ball->setAppearance(ballAppearance);
     _ball->setCollidable(true);
     _ball->setSolid(true);
     _ball->setMobile(true);
@@ -106,6 +185,17 @@ void PongState::buildAssets()
     //Walls
     Volume wallVol(_screenWidth, _screenHeight*0.1f, 0.0f);
 
+    Appearance wallAppearance;
+    //QImage wallTexture("C:\\Users\\Chris\\Pictures\\PongGameArt\\metalTexture.png");
+    QImage wallTexture(":/images/metalTexture.png");
+    wallAppearance.texture = wallTexture;
+    wallAppearance.texStartX = 0.0f;
+    wallAppearance.texEndX = 1.0f;
+    wallAppearance.texStartY = 0.0f;
+    wallAppearance.texEndY = 0.5f;
+    wallAppearance.texImageWidth = wallAppearance.texture.width();
+    wallAppearance.texImageHeight = wallAppearance.texture.height();
+    wallAppearance.textured = true;
     //Bottom Wall
     Position bWallPos(0.0f, 0.0f, 0.0f);
     BoundingBox2D bWallHBox(bWallPos, wallVol);
@@ -114,7 +204,8 @@ void PongState::buildAssets()
     _bottomWall->setPosition(bWallPos);
     _bottomWall->setVolume(wallVol);
     _bottomWall->setHitBox(bWallHBox);
-    _bottomWall->setAppearance(pongAppearance);
+    //_bottomWall->setAppearance(pongAppearance);
+    _bottomWall->setAppearance(wallAppearance);
     _bottomWall->setCollidable(true);
     _bottomWall->setSolid(true);
     _bottomWall->setMobile(true);
@@ -131,7 +222,8 @@ void PongState::buildAssets()
     _topWall->setPosition(tWallPos);
     _topWall->setVolume(wallVol);
     _topWall->setHitBox(tWallHBox);
-    _topWall->setAppearance(pongAppearance);
+    //_topWall->setAppearance(pongAppearance);
+    _topWall->setAppearance(wallAppearance);
     _topWall->setCollidable(true);
     _topWall->setSolid(true);
     _topWall->setMobile(true);

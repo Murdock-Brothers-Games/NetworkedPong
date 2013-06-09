@@ -15,8 +15,8 @@ SoundManager::SoundManager()
 
     Phonon::createPath(_mediaObject, _audioOutput);
 
-    Phonon::MediaSource source(/*PUT PATH TO SONG HERE*/);
-    _mediaObject->setCurrentSource(source);
+    //Phonon::MediaSource source(/*PUT PATH TO SONG HERE*/);
+    //_mediaObject->setCurrentSource(source);
 }
 
 void SoundManager::sourceChanged(const Phonon::MediaSource &source)
