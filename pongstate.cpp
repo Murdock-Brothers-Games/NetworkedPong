@@ -22,7 +22,7 @@ PongState::PongState(int screenWidth, int screenHeight,
     setName(QString("Pong"));
     this->setFocusPolicy(Qt::StrongFocus);
 
-    _paddleVelPerSec = (float)(screenHeight*1.5f);
+    _paddleVelPerSec = (float)(screenHeight*1.25f);
     _ballVelPerSec = _paddleVelPerSec*.85f;
     qDebug() << "PongState::PongState(): paddleVelPerSec = " << _paddleVelPerSec;
     _playerOneScore = 0;
