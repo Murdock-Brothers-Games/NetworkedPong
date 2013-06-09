@@ -41,6 +41,11 @@ void PongState::buildAssets()
     float paddleWidth = (float)(_screenWidth) / 20.0f;
     float paddleHeight = (float)(_screenHeight) / 4.0f;
     Volume paddleVol(paddleWidth, paddleHeight, 0.0f, false);
+    //Hit box based on paddle texture
+    //(taking into account transparency)
+    Volume paddleHBoxVol(paddleVol.width - (paddleVol.width*0.3f),
+                         paddleVol.height,
+                         0.0f);
     _paddleStartY = ((float)(_screenHeight) * 0.5f) - (paddleHeight*0.5f);
     _paddleOneStartX = 0.0f;
     _paddleTwoStartX = _screenWidth-paddleWidth;
@@ -92,7 +97,11 @@ void PongState::buildAssets()
 
     //Player one starting position:
     Position p1Pos(_paddleOneStartX, _paddleStartY, 0.0f);
-    BoundingBox2D p1HBox(p1Pos, paddleVol);
+    Position p1HBoxPos(p1Pos.x + (paddleVol.width*0.15f),
+                       p1Pos.y,
+                       0.0f);
+
+    BoundingBox2D p1HBox(p1HBoxPos, paddleHBoxVol);
 
     _playerOne = new GameObject(QString("playerOne"), p1Pos, this);
     _playerOne->setPosition(p1Pos);
@@ -110,7 +119,10 @@ void PongState::buildAssets()
 
     //Player two starting position:
     Position p2Pos(_paddleTwoStartX, _paddleStartY, 0.0f);
-    BoundingBox2D p2HBox(p2Pos, paddleVol);
+    Position p2HBoxPos(p2Pos.x + (paddleVol.width*0.15f),
+                       p2Pos.y,
+                       0.0f);
+    BoundingBox2D p2HBox(p2HBoxPos, paddleHBoxVol);
 
     _playerTwo = new GameObject(QString("playerTwo"), p2Pos, this);
     _playerTwo->setPosition(p2Pos);
