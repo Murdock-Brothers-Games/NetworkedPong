@@ -3,5 +3,7 @@
         <file>EnergyBallCropped2.png</file>
         <file>metalTexture.png</file>
         <file>lightningArcCropped.png</file>
+        <file>EnergyBall.png</file>
+        <file>lightningArc.png</file>
     </qresource>
 </RCC>

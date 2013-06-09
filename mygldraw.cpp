@@ -128,7 +128,7 @@ void MyGLDraw::initializeGL()
     glLoadIdentity();
 
     //Let OpenGL clear to black
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     //glClearColor(0.63f, 0.32f, 0.18f, 0.0f);
     //we want smooth shading...
     glShadeModel(GL_SMOOTH);

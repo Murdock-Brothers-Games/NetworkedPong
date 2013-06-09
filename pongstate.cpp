@@ -54,7 +54,8 @@ void PongState::buildAssets()
 
     Appearance paddleAppearance;
     //QImage paddleTexture("C:\\Users\\Chris\\Pictures\\PongGameArt\\lightningArcCropped.png");
-    QImage paddleTexture(":/images/lightningArcCropped.png");
+    //QImage paddleTexture(":/images/lightningArcCropped.png");
+    QImage paddleTexture(":/images/lightningArc.png");
     if(paddleTexture.isNull()){
         qDebug() << "Error: could not load texture image.";
     }else{
@@ -134,7 +135,8 @@ void PongState::buildAssets()
    // QImage baseTexture("PongGameArt\EnergyBall.jpg");
     //QImage maskTexture = baseTexture.createMaskFromColor(QRgb(0,0,0), Qt::MaskOutColor);
     //QImage ballTexture("C:\\Users\\Chris\\Pictures\\PongGameArt\\EnergyBallCropped2.png");
-    QImage ballTexture(":/images/EnergyBallCropped2.png");
+    //QImage ballTexture(":/images/EnergyBallCropped2.png");
+    QImage ballTexture(":/images/EnergyBall.png");
     if(ballTexture.isNull()){
         qDebug() << "Error: could not load texture image.";
     }else{
