@@ -2,6 +2,7 @@
 #define PONGSTATE_H
 
 #include "gamestate.h"
+#include <cmath>
 
 class PongState : public GameState
 {

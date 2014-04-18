@@ -15,7 +15,7 @@
 #include <QImage>
 #include <QColor>
 
-#include "GL/GLU.h"
+#include "GL/glu.h"
 #include "gameobject.h"
 
 class MyGLDraw: public QGLWidget

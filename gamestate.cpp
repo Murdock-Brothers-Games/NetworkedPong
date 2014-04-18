@@ -14,9 +14,9 @@ GameState::GameState(int screenWidth, int screenHeight,
 
 GameState::GameState(QWidget *parent):
     QWidget(parent),
+    _name(QString("")),
     _screenWidth(0),
-    _screenHeight(0),
-    _name(QString(""))
+    _screenHeight(0)
 {
 }
 

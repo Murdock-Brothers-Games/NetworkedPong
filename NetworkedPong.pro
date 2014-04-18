@@ -36,6 +36,7 @@ HEADERS  += mainwindow.h \
     sleepthread.h \
     soundmanager.h
 
+LIBS += -lglut -lGL -lGLU -lGLEW
 OTHER_FILES +=
 
 RESOURCES += \
