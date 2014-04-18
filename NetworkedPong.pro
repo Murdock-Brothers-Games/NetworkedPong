@@ -12,32 +12,12 @@ TARGET = NetworkedPong
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    mygldraw.cpp \
-    gameobject.cpp \
-    collisionsystem.cpp \
-    gameengine.cpp \
-    gamestate.cpp \
-    pongstate.cpp \
-    sleepthread.cpp \
-    soundmanager.cpp
+SOURCES += ./src/*.cpp
 
-HEADERS  += mainwindow.h \
-    mygldraw.h \
-    gameobject.h \
-    collisiontypes.h \
-    gameprimitives.h \
-    collisionsystem.h \
-    collision.h \
-    gameengine.h \
-    gamestate.h \
-    pongstate.h \
-    sleepthread.h \
-    soundmanager.h
+HEADERS  += ./src/*.h
 
 LIBS += -lglut -lGL -lGLU -lGLEW
 OTHER_FILES +=
 
 RESOURCES += \
-    PongResources.qrc
+    ./res/PongResources.qrc
